@@ -17,8 +17,10 @@ func main() {
 	defer db.Close()
 
 	r := mux.NewRouter()
-	r.HandleFunc("/health", handlers.HealthHandler)
-	r.HandleFunc("/api/auth/sign-up", handlers.SignUpHandler)
+	r.HandleFunc("/health", handlers.HealthHandler).Methods("GET", "OPTIONS")
+	r.HandleFunc("/auth/sign-up", handlers.SignUpHandler)
+	r.HandleFunc("/transactions", handlers.CreateTransaction).Methods("POST")
+	r.HandleFunc("/transactions", handlers.GetTransactions).Methods("GET")
 
 	const PORT = ":8086"
 

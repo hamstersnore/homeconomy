@@ -38,6 +38,8 @@ services:
       - homeconomy-net
 
   ui:
+    depends_on:
+      - homeconomy-api
     build:
       context: ./ui
     ports:

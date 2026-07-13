@@ -1,7 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
 import { form, FormField } from '@angular/forms/signals';
-import { FormInput } from "../components/form-input/form-input";
 
 interface SignUpData {
   username: string;
