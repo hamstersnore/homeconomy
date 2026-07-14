@@ -42,7 +42,7 @@ func GetTransactions(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	var transactions []transaction
 	db := database.OpenDb()
-	rows, err := db.Query("SELECT FROM transactions")
+	rows, err := db.Query("SELECT * FROM transactions")
 	if err != nil {
 		log.Printf("Error retrieving data %v", err)
 	}

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, inject, signal } from '@angular/core';
 import { form, FormField } from '@angular/forms/signals';
+import { Router } from '@angular/router';
 
 interface CreateTransactionData {
   amount: number;
@@ -15,6 +16,7 @@ interface CreateTransactionData {
 })
 export class CreateTransaction {
   private httpClient = inject(HttpClient);
+  private router = inject(Router)
 
   createTransactionModel = signal<CreateTransactionData>({
     amount: 0.00,
@@ -31,7 +33,7 @@ export class CreateTransaction {
     this.httpClient.post('/api/transactions', JSON.stringify(createTransactionRequest))
       .subscribe((result) => 
         {
-          console.log(result)
+          this.router.navigate(['/transactions'])
         })
   }
 }

@@ -1,0 +1,23 @@
+<div class="flex flex-col p-40 space-y-4">
+    <a [routerLink]="['/create-transaction']" class="w-1/3 bg-cyan-800 py-3 px-4 text-white font-bold rounded-lg self-end text-center">Create new transaction</a>
+@if (transactions().length != 0) {
+    <div class="flex flex-col">
+        <div class="flex flex-row bg-cyan-200 text-black rounded-lg">
+            <div class="w-1/3 py-3 px-4 font-bold text-center">Id</div>
+            <div class="w-1/3 py-3 px-4 font-bold text-center">Amount</div>
+            <div class="w-1/3 py-3 px-4 font-bold text-center">Execution date</div>
+        </div>
+        @for (tr of transactions(); track $index) {
+        <div class="flex flex-row border-b-2 border-gray-50">
+            <div class="w-1/3 py-3 px-4 text-center">{{tr.id}}</div>
+            <div class="w-1/3 py-3 px-4 text-center">{{tr.amount}} €</div>
+            <div class="w-1/3 py-3 px-4 text-center">{{tr.execution_date | date:'dd/MM/yyyy'}}</div>
+        </div>
+        }
+    </div>
+}
+@else {
+    <p class="text-gray-500">No transactions found</p>
+}
+</div>
+

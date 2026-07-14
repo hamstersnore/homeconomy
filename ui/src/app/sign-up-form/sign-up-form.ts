@@ -1,4 +1,5 @@
-import { Component, signal } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, inject, signal } from '@angular/core';
 import { form, FormField } from '@angular/forms/signals';
 
 interface SignUpData {
