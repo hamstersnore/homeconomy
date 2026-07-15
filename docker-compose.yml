@@ -26,6 +26,7 @@ services:
       - homeconomy-net
     volumes:
       - postgres-db:/var/lib/postgres
+      - ./db/init-scripts:/docker-entrypoint-initdb.d
 
   adminer:
     image: adminer
