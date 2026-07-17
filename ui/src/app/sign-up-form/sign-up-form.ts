@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, inject, signal } from '@angular/core';
 import { form, FormField } from '@angular/forms/signals';
 import { Router } from '@angular/router';
+import { AuthService } from '../services/auth/auth-service';
 
 interface SignUpData {
   username: string;
@@ -18,6 +19,7 @@ interface SignUpData {
 export class SignUpForm {
   private http = inject(HttpClient)
   private router = inject(Router)
+  private service = inject(AuthService)
 
   signUpModel = signal<SignUpData>({
       username: '',
@@ -25,21 +27,20 @@ export class SignUpForm {
       repassword: ''
     })
 
+  isError = signal(false)
+
   signUpForm = form(this.signUpModel)
 
   onSubmit(event:Event){
-    this.http.post('/auth/sign-up', this.signUpModel())
-    .subscribe({
-      next: (result) => {
-        this.router.navigate(['/'])
-      },
-      error: (error) => {
-
-      }
-    })
+    var isError = this.service.signUp(
+      this.signUpModel().username, 
+      this.signUpModel().password)
+    if (isError) {
+      this.isError.set(true)
+    }
   }
 
   showError(){
-    
+
   }
 }
