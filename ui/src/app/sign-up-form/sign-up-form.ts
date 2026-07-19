@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, inject, signal } from '@angular/core';
-import { form, FormField } from '@angular/forms/signals';
+import { form, FormField, required, schema, validate } from '@angular/forms/signals';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth/auth-service';
 
@@ -29,7 +29,24 @@ export class SignUpForm {
 
   isError = signal(false)
 
-  signUpForm = form(this.signUpModel)
+  signUpForm = form(this.signUpModel, (schemaPath) => {
+    required(schemaPath.username, {message: 'Username is required'}),
+    required(schemaPath.password, {message: 'Password is required'}),
+    required(schemaPath.repassword, {message: 'Password repetition is required'}),
+    validate(schemaPath.repassword, ({value, valueOf}) => {
+      const rePassword = value();
+      const password = valueOf(schemaPath.password);
+
+      if (rePassword !== password){
+        return {
+          kind: 'passwordMismatch',
+          message: 'Passwords do not match'
+        }
+      }
+
+      return null;
+    });
+  })
 
   onSubmit(event:Event){
     var isError = this.service.signUp(
