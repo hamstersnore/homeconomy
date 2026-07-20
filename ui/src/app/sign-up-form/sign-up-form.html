@@ -5,14 +5,29 @@
             <div class="flex flex-col space-y-1">
                 <label class="font-bold">Username @if(signUpForm.username().invalid()) {<span class="text-orange-600">*</span>}</label>
                 <input class="rounded-lg border w-full px-4 py-3" type="text" placeholder="Enter your username" [formField]="signUpForm.username"/>
+                @if (signUpForm.username().invalid()) {
+                    @for (error of signUpForm.username().errors(); track error){
+                        <p class="text-sm text-red-500">{{error.message}}</p>
+                    }
+                }
             </div>
             <div class="flex flex-col space-y-1">
                 <label class="font-bold">Password @if(signUpForm.password().invalid()) {<span class="text-orange-600">*</span>}</label>
                 <input class="rounded-lg border w-full px-4 py-3" type="password" placeholder="Enter your password" [formField]="signUpForm.password"/>
+                @if (signUpForm.password().invalid()) {
+                    @for (error of signUpForm.password().errors(); track error){
+                        <p class="text-sm text-red-500">{{error.message}}</p>
+                    }
+                }
             </div>
             <div class="flex flex-col space-y-1">
                 <label class="font-bold">Repeat password @if(signUpForm.repassword().invalid()) {<span class="text-orange-600">*</span>}</label>
                 <input class="rounded-lg border w-full px-4 py-3" type="password" placeholder="Repeat your password" [formField]="signUpForm.repassword"/>
+                @if (signUpForm.repassword().invalid()) {
+                    @for (error of signUpForm.repassword().errors(); track error){
+                        <p class="text-sm text-red-500">{{error.message}}</p>
+                    }
+                }
             </div>
             <input class="mt-4 py-3 rounded-lg bg-cyan-800 text-white font-bold" title="Submit" type="submit" value="Enviar" />
             <p class="mt-4">Do you already have an account ? <a class="text-cyan-700 cursor-pointer font-semibold">Sign in here</a></p>
