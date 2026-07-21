@@ -3,33 +3,60 @@
         <h1 class="text-cyan-800 text-6xl font-bold text-center">Sign up</h1>
         <form class="flex flex-col p-8 space-y-4 justify-center" (submit)="onSubmit($event)">
             <div class="flex flex-col space-y-1">
-                <label class="font-bold">Username @if(signUpForm.username().invalid()) {<span class="text-orange-600">*</span>}</label>
-                <input class="rounded-lg border w-full px-4 py-3" type="text" placeholder="Enter your username" [formField]="signUpForm.username"/>
-                @if (signUpForm.username().invalid()) {
+                <label for="username-input" class="font-bold">Username @if(signUpForm.username().invalid()) {<span class="text-orange-700">*</span>}</label>
+                <input
+                    [class.border-red-600]="signUpForm.username().invalid()" 
+                    id="username-input" 
+                    class="rounded-lg border w-full px-4 py-3 focus:outline-0" 
+                    type="text" 
+                    placeholder="Enter your username" 
+                    [formField]="signUpForm.username"/>
+                @if (signUpForm.username().invalid() && signUpForm.username().dirty()) {
                     @for (error of signUpForm.username().errors(); track error){
-                        <p class="text-sm text-red-500">{{error.message}}</p>
+                        <span class="text-sm text-red-600">{{error.message}}</span>
                     }
                 }
             </div>
             <div class="flex flex-col space-y-1">
-                <label class="font-bold">Password @if(signUpForm.password().invalid()) {<span class="text-orange-600">*</span>}</label>
-                <input class="rounded-lg border w-full px-4 py-3" type="password" placeholder="Enter your password" [formField]="signUpForm.password"/>
-                @if (signUpForm.password().invalid()) {
+                <label for="password-input" class="font-bold">Password @if(signUpForm.password().invalid()) {<span class="text-orange-700">*</span>}</label>
+                <input
+                    [class.border-red-600]="signUpForm.password().invalid()" 
+                    id="password-input" 
+                    class="rounded-lg border w-full px-4 py-3 focus:outline-0" 
+                    type="password" 
+                    placeholder="Enter your password" 
+                    [formField]="signUpForm.password"/>
+                @if (signUpForm.password().invalid() && signUpForm.password().dirty()) {
                     @for (error of signUpForm.password().errors(); track error){
-                        <p class="text-sm text-red-500">{{error.message}}</p>
+                        <p class="text-sm text-red-600">{{error.message}}</p>
                     }
                 }
             </div>
             <div class="flex flex-col space-y-1">
-                <label class="font-bold">Repeat password @if(signUpForm.repassword().invalid()) {<span class="text-orange-600">*</span>}</label>
-                <input class="rounded-lg border w-full px-4 py-3" type="password" placeholder="Repeat your password" [formField]="signUpForm.repassword"/>
-                @if (signUpForm.repassword().invalid()) {
-                    @for (error of signUpForm.repassword().errors(); track error){
-                        <p class="text-sm text-red-500">{{error.message}}</p>
+                <label for="repassword-input" class="font-bold">Repeat password @if(signUpForm.repassword().invalid()) {<span class="text-orange-700">*</span>}</label>
+                <input 
+                    [class.border-red-600]="signUpForm.repassword().invalid()"
+                    id="repassword-input" 
+                    class="rounded-lg border w-full px-4 py-3 focus:outline-0" 
+                    type="password" 
+                    placeholder="Repeat your password" 
+                    [formField]="signUpForm.repassword"/>
+                @if (signUpForm.repassword().invalid() && signUpForm.repassword().dirty()) {
+                    @for (error of signUpForm.repassword().errors(); track error.kind){
+                        <p class="text-sm text-red-600">{{error.message}}</p>
                     }
                 }
             </div>
-            <input class="mt-4 py-3 rounded-lg bg-cyan-800 text-white font-bold" title="Submit" type="submit" value="Enviar" />
+            <button
+                [class.bg-cyan-800]="signUpForm().valid()"
+                [class.text-white]="signUpForm().valid()"
+                [class.cursor-pointer]="signUpForm().valid()"
+                [class.cursor-default]="!signUpForm().valid()"
+                [class.bg-gray-200]="!signUpForm().valid()"
+                [class.text-gray-600]="!signUpForm().valid()" 
+                class="mt-4 py-3 rounded-lg bg-cyan-800 font-bold" 
+                title="Submit" type="submit" 
+                [disabled]="!signUpForm().valid()">Enviar</button>
             <p class="mt-4">Do you already have an account ? <a class="text-cyan-700 cursor-pointer font-semibold">Sign in here</a></p>
         </form>
     </div>
