@@ -12,6 +12,8 @@ const SIGN_IN_URL = "auth/sign-in";
 })
 export class AuthService {
 
+  private readonly AUTH_TOKEN_KEY = 'homeconomy-authToken'
+
   private http = inject(HttpClient)
 
   signUp(username:string, password:string):boolean{
@@ -34,5 +36,12 @@ export class AuthService {
     return true;
   }
   
+  getToken():string{
+    var authToken = localStorage.getItem(this.AUTH_TOKEN_KEY)
+    if (authToken === null){
+      throw new Error('Auth token not found')
+    }
+    return authToken
+  }
 }
 
