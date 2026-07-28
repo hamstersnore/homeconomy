@@ -31,4 +31,15 @@ export class BaseService {
 
         throw new Error("Error [POST]")
     }
+
+    get<TResponse>(url:string){
+        this.http.get<TResponse>(
+            this.basePath + url,
+            {
+                headers: new HttpHeaders({
+                    "Authorization": "Bearer " + this.authService.getToken()})
+                
+            }
+        )
+    }
 }
