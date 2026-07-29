@@ -1,7 +1,8 @@
 services:
   homeconomy-api:
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     build: 
       context: ./api
     container_name: homeconomy-api
@@ -12,6 +13,12 @@ services:
       - 8282:8086
     env_file:
       - .env
+    healthcheck:
+      test: ["CMD", "ping", "-c", "1", "homeconomy-api"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
 
   db:
     image: postgres:18.4
@@ -27,6 +34,12 @@ services:
     volumes:
       - postgres-db:/var/lib/postgres
       - ./db/init-scripts:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
 
   adminer:
     image: adminer
@@ -34,13 +47,15 @@ services:
     ports:
       - 8181:8080
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     networks:
       - homeconomy-net
 
   ui:
     depends_on:
-      - homeconomy-api
+      homeconomy-api:
+        condition: service_healthy
     build:
       context: ./ui
     ports:
