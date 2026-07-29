@@ -18,7 +18,8 @@ func main() {
 
 	r := mux.NewRouter()
 	r.HandleFunc("/health", handlers.HealthHandler).Methods("GET", "OPTIONS")
-	r.HandleFunc("/auth/sign-up", handlers.SignUpHandler)
+	r.HandleFunc("/auth/sign-up", handlers.SignUpHandler).Methods("POST")
+	r.HandleFunc("/auth/sign-in", handlers.SignInHandler).Methods("POST")
 	r.HandleFunc("/transactions", handlers.CreateTransaction).Methods("POST")
 	r.HandleFunc("/transactions", handlers.GetTransactions).Methods("GET")
 

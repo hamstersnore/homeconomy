@@ -2,10 +2,13 @@ package handlers
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 
 	"github.com/hamstersnore/homeconomy/database"
+	"github.com/hamstersnore/homeconomy/managers"
 	models "github.com/hamstersnore/homeconomy/models/auth"
+	repositories "github.com/hamstersnore/homeconomy/repositories/models"
 )
 
 func SignUpHandler(w http.ResponseWriter, r *http.Request) {
@@ -13,7 +16,7 @@ func SignUpHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewDecoder(r.Body).Decode(&request)
 	var id int32
 	db := database.OpenDb()
-	err := db.QueryRow("INSERT INTO users (username, password) VALUES ($1, $2) RETURNING id", &request.Username, &request.Password).Scan(&id)
+	err := db.QueryRow("INSERT INTO users (username, hashed_pwd, created_at ) VALUES ($1, $2, current_timestamp) RETURNING id", &request.Username, string(managers.HashPassword(request.Password))).Scan(&id)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 	} else {
@@ -25,5 +28,20 @@ func SignUpHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func SignInHandler(w http.ResponseWriter, r *http.Request) {
-
+	var request models.SignInRequest
+	json.NewDecoder(r.Body).Decode(&request)
+	db := database.OpenDb()
+	row := db.QueryRow("SELECT * FROM users WHERE username = $1", &request.Username)
+	var dbUser repositories.UserDb
+	err := row.Scan(&dbUser.Id, &dbUser.Username, &dbUser.Hashed_pwd, &dbUser.Created_at, &dbUser.Updated_at)
+	if err != nil {
+		log.Print(err.Error())
+		w.WriteHeader(http.StatusBadRequest)
+	}
+	if managers.CheckPassword(request.Password, dbUser.Hashed_pwd) {
+		log.Print("Generating token")
+	}
+	json.NewEncoder(w).Encode(models.SignInResponse{
+		AuthToken: "mock-token",
+	})
 }

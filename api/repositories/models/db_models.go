@@ -1,13 +1,13 @@
-package models
+package repositories
 
 import "time"
 
 type UserDb struct {
-	id         int
-	username   string
-	hashed_pwd []byte
-	created_at time.Time
-	updated_at time.Time
+	Id         int
+	Username   string
+	Hashed_pwd []byte
+	Created_at time.Time
+	Updated_at *time.Time
 }
 
 type BudgetDb struct {
