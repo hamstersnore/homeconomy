@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
-import { environment } from "../../environments/environment.development";
+import { environment } from "../../environments/environment";
 import { AuthService } from "./auth/auth-service";
 
 @Injectable({
@@ -32,14 +32,32 @@ export class BaseService {
         throw new Error("Error [POST]")
     }
 
-    get<TResponse>(url:string){
+    get<TResponse>(url:string):TResponse{
+
+        url = this.basePath + url
+
+        console.log('Sending to ', url)
+        
         this.http.get<TResponse>(
-            this.basePath + url,
+            url,
             {
                 headers: new HttpHeaders({
                     "Authorization": "Bearer " + this.authService.getToken()})
                 
             }
+        ).subscribe(
+            {
+                next: (response) => {
+                    return response
+                },
+                error: (error) => {
+                    console.log(error)
+                    throw new Error("Error sending request to " + url)
+                }
+            }
         )
+
+        throw new Error("Error sending request to " + url)
+
     }
 }

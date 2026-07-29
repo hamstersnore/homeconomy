@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, inject, signal } from '@angular/core';
 import { form, FormField } from '@angular/forms/signals';
 import { Router } from '@angular/router';
+import { environment } from '../../environments/environment';
 
 interface CreateTransactionData {
   amount: number;
@@ -30,7 +31,7 @@ export class CreateTransaction {
 
     const createTransactionRequest = this.createTransactionModel();
     console.log('Transaction: ', createTransactionRequest)
-    this.httpClient.post('/api/transactions', JSON.stringify(createTransactionRequest))
+    this.httpClient.post(environment.apiBaseUrl + 'transactions', JSON.stringify(createTransactionRequest))
       .subscribe((result) => 
         {
           this.router.navigate(['/transactions'])

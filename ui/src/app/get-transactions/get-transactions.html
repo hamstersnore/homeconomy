@@ -13,9 +13,9 @@
         <tbody class="bg-white">
             @for (tr of transactions(); track $index) {
             <tr>
-                <th class="px-4 py-3 border-2 border-gray-200">{{tr.id}}</th>
-                <td class="px-4 py-3 border-2 border-gray-200">{{tr.amount}} €</td>
-                <td class="px-4 py-3 border-2 border-gray-200">{{tr.execution_date | date:'dd/MM/yyyy'}}</td>
+                <th class="px-4 py-3 border-2 border-gray-200">{{tr.Id}}</th>
+                <td class="px-4 py-3 border-2 border-gray-200">{{tr.Amount}} €</td>
+                <td class="px-4 py-3 border-2 border-gray-200">{{tr.ExecutionDate | date:'dd/MM/yyyy'}}</td>
             </tr>
             }
         </tbody>

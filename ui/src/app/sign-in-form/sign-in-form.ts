@@ -1,5 +1,7 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { form, FormField } from '@angular/forms/signals';
+import { AuthService } from '../services/auth/auth-service';
+import { Router } from '@angular/router';
 
 interface SignInModel {
   Username: string;
@@ -14,6 +16,9 @@ interface SignInModel {
 })
 export class SignInForm {
 
+  authService = inject(AuthService)
+  router = inject(Router)
+
   signInModel = signal<SignInModel>({
     Username: '',
     Password: ''
@@ -22,8 +27,13 @@ export class SignInForm {
   signInForm = form(this.signInModel)
 
   onSubmit(event:Event){
-    console.log(this.signInModel().Username, this.signInModel().Password)
-    // POST /api/auth/sign-in
+    event.preventDefault()
+    
+    var isOk = this.authService.signIn(this.signInModel().Username, this.signInModel().Password);
+
+    if (isOk){
+      this.router.navigate(['/dashboard'])
+    }
   }
 
 }

@@ -17,8 +17,7 @@ interface SignUpData {
   styleUrl: './sign-up-form.css',
 })
 export class SignUpForm {
-  private http = inject(HttpClient)
-  private router = inject(Router)
+
   private service = inject(AuthService)
 
   signUpModel = signal<SignUpData>({
@@ -49,6 +48,10 @@ export class SignUpForm {
   })
 
   onSubmit(event:Event){
+    event.preventDefault();
+    
+    console.log(this.signUpModel())
+    
     var isError = this.service.signUp(
       this.signUpModel().username, 
       this.signUpModel().password)
