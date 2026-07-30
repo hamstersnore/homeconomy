@@ -38,10 +38,11 @@ func SignInHandler(w http.ResponseWriter, r *http.Request) {
 		log.Print(err.Error())
 		w.WriteHeader(http.StatusBadRequest)
 	}
+	var token string
 	if managers.CheckPassword(request.Password, dbUser.Hashed_pwd) {
-		log.Print("Generating token")
+		token = managers.GenerateJwt(dbUser.Id, dbUser.Username)
 	}
 	json.NewEncoder(w).Encode(models.SignInResponse{
-		AuthToken: "mock-token",
+		AuthToken: token,
 	})
 }

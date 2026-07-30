@@ -1,3 +1,3 @@
 export interface SignInResponse {
-    AuthToken:string
+    authToken:string
 }

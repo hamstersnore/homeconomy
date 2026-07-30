@@ -57,8 +57,8 @@ export class AuthService {
       })
       .subscribe({
         next: (response) => {
-          console.log(response)
-          this.setToken(response.AuthToken)
+          console.log("ok respons", response)
+          this.setToken(response.authToken)
           return true
         },
         error: (error) => {
