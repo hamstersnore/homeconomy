@@ -1,6 +1,6 @@
 <div class="flex flex-row h-dvh p-8">
     <div class="flex flex-col justify-center p-8 w-2/5">
-        <h1 class="text-cyan-800 text-6xl font-bold text-center">Sign up</h1>
+        <h1 class="text-gray-800 text-6xl font-bold text-center">Sign up</h1>
         <form class="flex flex-col p-8 space-y-4 justify-center" (submit)="onSubmit($event)">
             <div class="flex flex-col space-y-1">
                 <label for="username-input" class="font-bold">Username @if(signUpForm.username().invalid()) {<span class="text-orange-700">*</span>}</label>
@@ -48,20 +48,18 @@
                 }
             </div>
             <button
-                [class.bg-cyan-800]="signUpForm().valid()"
-                [class.text-white]="signUpForm().valid()"
+                [class.bg-gray-800]="signUpForm().valid()"
                 [class.cursor-pointer]="signUpForm().valid()"
                 [class.cursor-default]="!signUpForm().valid()"
-                [class.bg-gray-200]="!signUpForm().valid()"
-                [class.text-gray-600]="!signUpForm().valid()" 
-                class="mt-4 py-3 rounded-lg bg-cyan-800 font-bold" 
+                [class.bg-gray-400]="!signUpForm().valid()"
+                class="mt-4 py-3 rounded-lg font-bold text-white" 
                 title="Submit" type="submit" 
                 [disabled]="!signUpForm().valid()"
                 value="Send">Enviar</button>
-            <p class="mt-4">Do you already have an account ? <a class="text-cyan-700 cursor-pointer font-semibold">Sign in here</a></p>
+            <p class="mt-4">Do you already have an account ? <a class="text-gray-700 cursor-pointer font-semibold">Sign in here</a></p>
         </form>
     </div>
-    <div class="w-full bg-cyan-800 p-16 flex flex-col justify-center items-center rounded-2xl">
+    <div class="w-full bg-gray-800 p-16 flex flex-col justify-center items-center rounded-2xl">
         <h1 class="text-9xl text-white font-extrabold block w-fit">homeconomy</h1>
         <p class="text-5xl text-white mt-6 text-center">A self-hosted home economy app to manage your income and expenses</p>
     </div>
