@@ -22,6 +22,8 @@ func main() {
 	r.HandleFunc("/auth/sign-in", handlers.SignInHandler).Methods("POST")
 	r.HandleFunc("/transactions", handlers.CreateTransaction).Methods("POST")
 	r.HandleFunc("/transactions", handlers.GetTransactions).Methods("GET")
+	r.HandleFunc("/accounts", handlers.GetAccounts).Methods("GET")
+	r.HandleFunc("/accounts", handlers.CreateAccount).Methods("POST")
 
 	const PORT = ":8086"
 

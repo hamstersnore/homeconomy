@@ -9,7 +9,7 @@ CREATE TABLE users (
 CREATE TABLE accounts (
     id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     owner_id INT REFERENCES users(id),
-    alilas VARCHAR(255),
+    alias VARCHAR(255),
     created_at TIMESTAMP,
     updated_at TIMESTAMP DEFAULT NULL
 );

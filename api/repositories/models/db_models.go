@@ -10,6 +10,14 @@ type UserDb struct {
 	Updated_at *time.Time
 }
 
+type AccountDb struct {
+	Id        int
+	OwnerId   int
+	Alias     string
+	CreatedAt time.Time
+	UpdateAt  *time.Time
+}
+
 type BudgetDb struct {
 	id         int
 	creator_id int
