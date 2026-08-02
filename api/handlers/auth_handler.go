@@ -7,7 +7,7 @@ import (
 
 	"github.com/hamstersnore/homeconomy/database"
 	"github.com/hamstersnore/homeconomy/managers"
-	models "github.com/hamstersnore/homeconomy/models/auth"
+	"github.com/hamstersnore/homeconomy/models"
 	repositories "github.com/hamstersnore/homeconomy/repositories/models"
 )
 
