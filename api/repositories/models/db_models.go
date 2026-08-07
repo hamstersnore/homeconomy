@@ -23,7 +23,7 @@ type BudgetDb struct {
 	creator_id int
 	alias      string
 	created_at time.Time
-	updated_at time.Time
+	updated_at *time.Time
 }
 
 type TransactionDb struct {
@@ -34,5 +34,5 @@ type TransactionDb struct {
 	execution_date time.Time
 	category_id    int
 	created_at     time.Time
-	updated_at     time.Time
+	updated_at     *time.Time
 }

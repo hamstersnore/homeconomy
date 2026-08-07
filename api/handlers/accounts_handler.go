@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/hamstersnore/homeconomy/database"
 	"github.com/hamstersnore/homeconomy/managers"
@@ -11,15 +12,24 @@ import (
 	repositories "github.com/hamstersnore/homeconomy/repositories/models"
 )
 
-func CreateAccount(w http.ResponseWriter, r *http.Request) {
+func CreateAccountHandler(w http.ResponseWriter, r *http.Request) {
 	var request models.CreateAccountRequest
+	var id int
+	var created_at time.Time
 	claims := managers.GetClaims(r)
 	json.NewDecoder(r.Body).Decode(&request)
 	db := database.OpenDb()
-	db.QueryRow("INSERT INTO accounts (owner_id, alias) VALUES $1, $2", claims.Id, request.AccountAlias)
+	db.QueryRow("INSERT INTO accounts (owner_id, alias) VALUES $1, $2 RETURNING id, created_at", claims.Id, request.AccountAlias).Scan(&id, &created_at)
+	json.NewEncoder(w).Encode(
+		repositories.AccountDb{
+			Id:        id,
+			OwnerId:   claims.Id,
+			Alias:     request.AccountAlias,
+			CreatedAt: created_at,
+			UpdateAt:  nil})
 }
 
-func GetAccounts(w http.ResponseWriter, r *http.Request) []repositories.AccountDb {
+func GetAccountsHandler(w http.ResponseWriter, r *http.Request) {
 	db := database.OpenDb()
 	rows, err := db.Query("SELECT * FROM accounts WHERE owner_id = $1", managers.GetClaims(r).Id)
 	if err != nil {
@@ -34,5 +44,6 @@ func GetAccounts(w http.ResponseWriter, r *http.Request) []repositories.AccountD
 		}
 		accounts = append(accounts, a)
 	}
-	return accounts
+
+	json.NewEncoder(w).Encode(accounts)
 }
