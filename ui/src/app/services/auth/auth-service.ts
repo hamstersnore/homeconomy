@@ -43,31 +43,16 @@ export class AuthService {
     return true;
   }
 
-  signIn(username:string, password:string):boolean{
+  signIn(username:string, password:string):Observable<SignInResponse>{
     
     var url:string = environment.apiBaseUrl + SIGN_IN_URL
 
-    console.log('Sending to ', url)
-
-    this.http.post<SignInResponse>(
+    return this.http.post<SignInResponse>(
       url, 
       {
         username:username,
         password:password
-      })
-      .subscribe({
-        next: (response) => {
-          console.log("ok respons", response)
-          this.setToken(response.authToken)
-          return true
-        },
-        error: (error) => {
-          console.log(error)
-          return false
-        }
-      })
-
-      return false
+      });
   }
   
   getToken():string{

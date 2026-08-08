@@ -1,7 +1,9 @@
 <div class="h-dvh bg-gray-200 flex flex-col justify-center items-center">
-    <div class="flex flex-col bg-gray-50 rounded-xl p-20 w-1/2">
+    <div class="flex flex-col bg-gray-50 rounded-xl p-20 w-1/2 space-y-8">
+        <h1 class=" text-xl">Create an account</h1>
         <form class="flex flex-row space-x-4" (submit)="onSubmit($event)">
-            <input type="text" placeholder="Type a name for your account" />
-            <button class="bg-gray-800 text-white rounded-xl px-4 py-3" type="submit">Create</button>
+            <input class="bg-gray-200 rounded-xl px-4 py-3 flex-2" type="text" placeholder="Type a name for your account" 
+            [formField]="createAccountForm.alias" />
+            <button class="bg-gray-700 hover:bg-gray-900 disabled:bg-gray-500 text-white rounded-xl px-4 py-3 flex-1" type="submit">Create</button>
         </form>
     </div>

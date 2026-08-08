@@ -1,5 +1,6 @@
-import { Component, signal } from '@angular/core';
-import { form } from '@angular/forms/signals';
+import { Component, inject, signal } from '@angular/core';
+import { form, FormField, required } from '@angular/forms/signals';
+import { AccountsService } from '../../services/accounts/accounts-service';
 
 interface CreateAccountModel {
   alias: string
@@ -7,20 +8,28 @@ interface CreateAccountModel {
 
 @Component({
   selector: 'app-create-account-view',
-  imports: [],
+  imports: [FormField],
   templateUrl: './create-account-view.html',
   styleUrl: './create-account-view.css',
 })
 export class CreateAccountView {
+  svc = inject(AccountsService)
+
   createAccountModel = signal<CreateAccountModel>(
     {
       alias: ''
     })
 
-  createAccountForm = form(this.createAccountModel)
+  createAccountForm = form(this.createAccountModel, (schemaPath) => {
+    required(schemaPath.alias, { message: 'Alias is required'})
+  })
 
   onSubmit($event:Event){
     $event.preventDefault()
+    this.svc.create({
+      alias: this.createAccountModel().alias
+    })
+    
     
   }
 }

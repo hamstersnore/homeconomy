@@ -29,11 +29,17 @@ export class SignInForm {
   onSubmit(event:Event){
     event.preventDefault()
     
-    var isOk = this.authService.signIn(this.signInModel().Username, this.signInModel().Password);
-
-    if (isOk){
-      this.router.navigate(['/dashboard'])
-    }
+    this.authService.signIn(this.signInModel().Username, this.signInModel().Password)
+      .subscribe({
+        next: (response) => {
+          if (response.authToken.length > 0){
+            this.authService.setToken(response.authToken)
+            this.router.navigate(['/dashboard'])
+          }
+        },
+        error: (error) => {
+          console.log('Error !', error)
+        }
+      })
   }
-
 }
