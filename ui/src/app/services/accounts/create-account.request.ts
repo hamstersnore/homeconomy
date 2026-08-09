@@ -1,3 +1,3 @@
 export interface CreateAccountRequest {
-    alias: string
+    account_alias: string
 }

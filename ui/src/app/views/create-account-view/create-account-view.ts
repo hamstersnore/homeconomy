@@ -27,7 +27,11 @@ export class CreateAccountView {
   onSubmit($event:Event){
     $event.preventDefault()
     this.svc.create({
-      alias: this.createAccountModel().alias
+      account_alias: this.createAccountModel().alias
+    })
+    .subscribe({
+      next: (result) => console.log('success', result),
+      error: (error) => console.log('error', error)
     })
     
     

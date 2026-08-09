@@ -42,8 +42,11 @@ export class GetTransactions {
   }
 
   ngOnInit(){
-    var trs = this.transactionsService.getTransactions()
-    this.transactions.set(trs);
+    this.transactionsService.getTransactions()
+    .subscribe({
+      next: (result) => this.transactions.set(result),
+      error: (error) => console.log('error', error)
+    })
   }
 
 }

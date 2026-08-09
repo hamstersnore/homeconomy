@@ -11,11 +11,11 @@ type UserDb struct {
 }
 
 type AccountDb struct {
-	Id        int
-	OwnerId   int
-	Alias     string
-	CreatedAt time.Time
-	UpdateAt  *time.Time
+	Id        int        `json:"id"`
+	OwnerId   int        `json:"owner_id"`
+	Alias     string     `json:"alias"`
+	CreatedAt time.Time  `json:"created_at"`
+	UpdateAt  *time.Time `json:"updated_at"`
 }
 
 type BudgetDb struct {

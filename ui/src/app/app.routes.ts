@@ -7,6 +7,7 @@ import { Dashboard } from './dashboard/dashboard';
 import { CreateCategory } from './create-category/create-category';
 import { OnboardingView } from './views/onboarding-view/onboarding-view';
 import { CreateAccountView } from './views/create-account-view/create-account-view';
+import { AccountsView } from './views/accounts-view/accounts-view';
 
 export const routes: Routes = [
     { path: 'sign-up', component: SignUpForm },
@@ -17,5 +18,5 @@ export const routes: Routes = [
     { path: 'categories/new', component: CreateCategory },
     { path: 'onboarding', component: OnboardingView },
     { path: 'create-account', component: CreateAccountView },
-    // { path: 'accounts', component: GetAccountsView },
+    { path: 'accounts', component: AccountsView },
 ];

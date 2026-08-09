@@ -3,6 +3,7 @@ import { BaseService } from "../base.service";
 import { TransactionRequest } from "./transaction.request";
 import { TransactionResponse } from "./transaction.response";
 import { TransactionDto } from "./transaction.model";
+import { Observable } from "rxjs";
 
 @Injectable({
     providedIn: 'root'
@@ -10,12 +11,12 @@ import { TransactionDto } from "./transaction.model";
 export class TransactionService {
     private baseService = inject(BaseService)
     
-    getTransactions():TransactionDto[]{
+    getTransactions():Observable<TransactionDto[]>{
         return this.baseService.get<TransactionDto[]>('transactions')
     }
 
-    createTransaction(request:TransactionRequest):TransactionResponse{
-        return this.baseService.post<TransactionRequest, TransactionResponse>('/transactions', request)
+    createTransaction(request:TransactionRequest):Observable<TransactionResponse>{
+        return this.baseService.post<TransactionRequest, TransactionResponse>('transactions', request)
     }
 
     updateTransaction(){
