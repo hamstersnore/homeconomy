@@ -1,13 +1,13 @@
 import { Component, inject, signal } from '@angular/core';
 import { AccountsService } from '../../services/accounts/accounts-service';
 import { Account } from '../../services/accounts/account.model';
-import { DatePipe, NgClass } from '@angular/common';
+import { DatePipe } from '@angular/common';
+import { RouterLink } from "@angular/router";
 
 @Component({
   selector: 'app-accounts-view',
-  imports: [DatePipe, NgClass],
+  imports: [DatePipe, RouterLink],
   templateUrl: './accounts-view.html',
-  styleUrl: './accounts-view.css',
 })
 export class AccountsView {
   accountsService = inject(AccountsService)

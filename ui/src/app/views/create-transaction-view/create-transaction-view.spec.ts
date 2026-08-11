@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CreateTransaction } from './create-transaction';
+import { CreateTransactionView } from './create-transaction-view';
 
 describe('CreateTransaction', () => {
-  let component: CreateTransaction;
-  let fixture: ComponentFixture<CreateTransaction>;
+  let component: CreateTransactionView;
+  let fixture: ComponentFixture<CreateTransactionView>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CreateTransaction]
+      imports: [CreateTransactionView]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(CreateTransaction);
+    fixture = TestBed.createComponent(CreateTransactionView);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

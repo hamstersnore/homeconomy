@@ -10,7 +10,6 @@ interface CreateAccountModel {
   selector: 'app-create-account-view',
   imports: [FormField],
   templateUrl: './create-account-view.html',
-  styleUrl: './create-account-view.css',
 })
 export class CreateAccountView {
   svc = inject(AccountsService)

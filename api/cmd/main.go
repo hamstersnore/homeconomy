@@ -25,6 +25,8 @@ func main() {
 	r.HandleFunc("/transactions", api.GetTransactions).Methods("GET")
 	r.HandleFunc("/accounts", api.GetAccountsHandler).Methods("GET")
 	r.HandleFunc("/accounts", api.CreateAccountHandler).Methods("POST")
+	r.HandleFunc("/categories", api.CreateCategoryHandler).Methods("POST")
+	r.HandleFunc("/categories", api.GetCategoriesHandler).Methods("GET")
 
 	originsOk := handlers.AllowedOrigins([]string{"http://localhost:4200"})
 	methodsOk := handlers.AllowedMethods([]string{"GET", "POST", "OPTIONS", "PUT", "DELETE"})

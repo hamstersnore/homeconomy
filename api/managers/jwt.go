@@ -45,6 +45,7 @@ func GetClaims(r *http.Request) *HomeconomyClaims {
 	token, err := jwt.ParseWithClaims(authHeader, &HomeconomyClaims{}, func(token *jwt.Token) (any, error) {
 		return []byte(os.Getenv("SIGNING_KEY")), nil
 	})
+	log.Printf("Is token valid: %v", token.Valid)
 
 	if err != nil {
 		log.Fatal(err)

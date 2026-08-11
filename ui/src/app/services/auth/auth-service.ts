@@ -66,5 +66,10 @@ export class AuthService {
   setToken(token:string){
     localStorage.setItem(this.AUTH_TOKEN_KEY, token)
   }
+
+  isAutheticated():boolean{
+    var token = this.getToken()
+    return token.length > 5
+  }
 }
 
