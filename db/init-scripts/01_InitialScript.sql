@@ -43,6 +43,7 @@ CREATE TABLE transactions (
     id int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     account_id INT REFERENCES budgets(id),
     user_id INT REFERENCES users(id),
+    concept VARCHAR(255),
     amount NUMERIC(14,2),
     execution_date TIMESTAMP,
     category_id int REFERENCES categories(id),
