@@ -11,8 +11,8 @@ import { Observable } from "rxjs";
 export class TransactionService {
     private baseService = inject(BaseService)
     
-    getTransactions():Observable<TransactionDto[]>{
-        return this.baseService.get<TransactionDto[]>('transactions')
+    getTransactions():Observable<GetTransactionsResponse>{
+        return this.baseService.get<GetTransactionsResponse>('transactions')
     }
 
     createTransaction(request:TransactionRequest):Observable<TransactionResponse>{
@@ -22,4 +22,8 @@ export class TransactionService {
     updateTransaction(){
 
     }
+}
+
+export interface GetTransactionsResponse {
+	Transactions:TransactionDto[]
 }

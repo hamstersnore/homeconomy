@@ -15,36 +15,15 @@ export class GetTransactions {
   private transactionsService = inject(TransactionService)
 
   transactions:WritableSignal<TransactionDto[]> = signal([])
-
-  mockTransactions(){
-    this.transactions.set([
-                {
-                  Id: 1,
-                  Amount: 10.02,
-                  ExecutionDate: new Date(Date.now() - 5000)
-                },
-                          {
-                  Id: 2,
-                  Amount: 20.02,
-                  ExecutionDate: new Date(Date.now() - 10000)
-                },
-                          {
-                  Id: 3,
-                  Amount: 30.02,
-                  ExecutionDate: new Date(Date.now() - 15000)
-                },
-                          {
-                  Id: 4,
-                  Amount: 40.02,
-                  ExecutionDate: new Date(Date.now() - 100000)
-                }
-            ]);
-  }
+  isDataLoaded=signal(false)
 
   ngOnInit(){
     this.transactionsService.getTransactions()
     .subscribe({
-      next: (result) => this.transactions.set(result),
+      next: (result) => {
+        console.log('ok',result)
+        this.isDataLoaded.set(true)
+        this.transactions.set(result.Transactions)},
       error: (error) => console.log('error', error)
     })
   }

@@ -1,5 +1,6 @@
 export interface TransactionRequest {
-    BudgetId:number
+    AccountId:number
+    BudgetId:number | null
     Amount:number
     Concept:string
     CategoryId:number

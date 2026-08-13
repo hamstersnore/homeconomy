@@ -7,10 +7,16 @@ import { AccountsService } from '../../services/accounts/accounts-service';
 import { Account } from '../../services/accounts/account.model';
 import { Category } from '../../services/categories/category.model';
 import { CategoriesService } from '../../services/categories/categories-service';
+import { TransactionService } from '../../services/transactions/transaction.service';
+import { TransactionRequest } from '../../services/transactions/transaction.request';
 
-interface CreateTransactionData {
-  amount: number;
-  execution_date: Date;
+export interface CreateTransactionFormModel {
+  AccountId:string
+	Amount:number
+	Concept:string
+	CategoryId:string
+  ExecutionDate:Date
+	BudgetId:number|null
 }
 
 @Component({
@@ -23,26 +29,37 @@ export class CreateTransactionView {
   private router = inject(Router)
   private accountsService = inject(AccountsService)
   private categoriesService = inject(CategoriesService)
+  private transactionService = inject(TransactionService)
   accounts = signal<Account[]>([])
   categories = signal<Category[]>([])
 
-  createTransactionModel = signal<CreateTransactionData>({
-    amount: 0.00,
-    execution_date: new Date(Date.now())
+  createTransactionModel = signal<CreateTransactionFormModel>({
+    AccountId: '',
+    Concept: '',
+    Amount: 0.00,
+    BudgetId: null,
+    CategoryId: '',
+    ExecutionDate: new Date(Date.now())
   })
 
   createTransactionForm = form(this.createTransactionModel)
 
   onSubmit(event: Event){
     event.preventDefault();
-
-    const createTransactionRequest = this.createTransactionModel();
-    console.log('Transaction: ', createTransactionRequest)
-    this.httpClient.post(environment.apiBaseUrl + 'transactions', JSON.stringify(createTransactionRequest))
-      .subscribe((result) => 
-        {
-          this.router.navigate(['/transactions'])
-        })
+    this.transactionService.createTransaction({
+      AccountId: parseInt(this.createTransactionModel().AccountId),
+      Amount: this.createTransactionModel().Amount,
+      BudgetId: this.createTransactionModel().BudgetId,
+      CategoryId: parseInt(this.createTransactionModel().CategoryId),
+      Concept: this.createTransactionModel().Concept,
+      ExecutionDate: this.createTransactionModel().ExecutionDate
+    }).subscribe({
+      next: result => {
+        console.log(result)
+        this.router.navigate(['/transactions'])
+      },
+      error: error => console.log(error)
+    })
   }
 
   ngOnInit(){
