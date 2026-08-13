@@ -41,7 +41,7 @@ CREATE TABLE categories (
 
 CREATE TABLE transactions (
     id int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    account_id INT REFERENCES budgets(id),
+    account_id INT REFERENCES accounts(id),
     user_id INT REFERENCES users(id),
     concept VARCHAR(255),
     amount NUMERIC(14,2),
@@ -49,7 +49,7 @@ CREATE TABLE transactions (
     category_id int REFERENCES categories(id),
     budget_id int REFERENCES budgets(id) DEFAULT NULL,
     created_at TIMESTAMP,
-    updated_at TIMESTAMP NOT NULL
+    updated_at TIMESTAMP DEFAULT NULL
 );
 
 CREATE TABLE budget_requests (
