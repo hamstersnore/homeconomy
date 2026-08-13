@@ -48,7 +48,7 @@ func GetClaims(r *http.Request) *HomeconomyClaims {
 	log.Printf("Is token valid: %v", token.Valid)
 
 	if err != nil {
-		log.Fatal(err)
+		log.Printf("ERROR: %s", err)
 	}
 
 	claims := token.Claims.(*HomeconomyClaims)
