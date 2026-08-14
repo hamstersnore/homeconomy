@@ -1,7 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { form, FormField } from '@angular/forms/signals';
 import { AuthService } from '../services/auth/auth-service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 interface SignInModel {
   Username: string;
@@ -10,7 +10,7 @@ interface SignInModel {
 
 @Component({
   selector: 'app-sign-in-form',
-  imports: [FormField],
+  imports: [FormField, RouterLink],
   templateUrl: './sign-in-form.html',
   styleUrl: './sign-in-form.css',
 })
