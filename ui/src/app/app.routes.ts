@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { SignUpForm } from './sign-up-form/sign-up-form';
+import { SignUpView } from './views/sign-up-view/sign-up-view';
 import { SignInForm } from './sign-in-form/sign-in-form';
 import { GetTransactions } from './get-transactions/get-transactions'
 import { Dashboard } from './dashboard/dashboard';
@@ -12,7 +12,7 @@ import { CategoriesView } from './views/categories-view/categories-view';
 import { CreateCategoryView } from './views/create-category-view/create-category-view';
 
 export const routes: Routes = [
-    { path: 'sign-up', component: SignUpForm },
+    { path: 'sign-up', component: SignUpView },
     { path: 'sign-in', component: SignInForm },
     { path: 'create-transaction', component: CreateTransactionView },
     { path: 'transactions', component: GetTransactions },

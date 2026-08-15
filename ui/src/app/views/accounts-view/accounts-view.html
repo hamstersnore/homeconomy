@@ -1,26 +1,28 @@
-<div class="h-dvh flex flex-col bg-gray-300 justify-center items-center">
-  <div class="flex flex-col bg-white rounded-xl p-20 w-1/2 space-y-8 shadow">
-    <div class="px-8 flex flex-row justify-between">
-      <h1 class="font-bold text-2xl">My accounts</h1>
-      <a routerLink="/create-account" class="bg-gray-600 text-white rounded-xl text-center px-4 py-2 w-40">New</a>
+<div class="flex flex-col bg-white rounded-xl p-20 w-full space-y-8 shadow">
+  <div class="px-8 flex flex-row justify-between">
+    <h1 class="font-bold text-2xl">My accounts</h1>
+  </div>
+  <div class="flex flex-col rounded-xl px-8 w-2xl">
+    <div class="flex flex-row font-bold bg-gray-200 p-2 rounded-tl-xl rounded-tr-xl">
+      <div class="flex-2 text-center">Alias</div>
+      <div class="flex-1 text-center">Created At</div>
+      <div class="flex-1 text-center">Updated At</div>
     </div>
-    <div class="flex flex-col rounded-xl px-8">
-      <div class="flex flex-row font-bold bg-gray-200 p-2 rounded-tl-xl rounded-tr-xl">
-        <div class="flex-2 text-center">Alias</div>
-        <div class="flex-1 text-center">Created At</div>
-        <div class="flex-1 text-center">Updated At</div>
+    @for (item of accounts(); track $index; let last = $last, odd = $odd) {
+      <div
+        class="flex flex-row justify-between p-2 border-b border-gray-200 bg-gray-50"
+        [class.rounded-bl-xl]="last"
+        [class.rounded-br-xl]="last"
+      >
+        <div class="flex-2 text-center">{{ item.alias }}</div>
+        <div class="flex-1 text-center">{{ item.created_at | date: 'dd-MM-yyyy' }}</div>
+        <div class="flex-1 text-center">{{ item.updated_at }}</div>
       </div>
-      @for (item of accounts(); track $index; let last = $last, odd = $odd) {
-        <div
-          class="flex flex-row justify-between p-2 border-b border-gray-200 bg-gray-50"
-          [class.rounded-bl-xl]="last"
-          [class.rounded-br-xl]="last"
-        >
-          <div class="flex-2 text-center">{{ item.alias }}</div>
-          <div class="flex-1 text-center">{{ item.created_at | date: 'dd-MM-yyyy' }}</div>
-          <div class="flex-1 text-center">{{ item.updated_at }}</div>
-        </div>
-      }
-    </div>
+    }
+    <a
+      routerLink="/create-account"
+      class="bg-gray-600 text-white rounded-xl text-center px-4 py-2 w-40 self-end mt-6"
+      >New</a
+    >
   </div>
 </div>
