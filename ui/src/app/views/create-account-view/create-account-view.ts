@@ -1,6 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { form, FormField, required } from '@angular/forms/signals';
 import { AccountsService } from '../../services/accounts/accounts-service';
+import { Router } from '@angular/router';
 
 interface CreateAccountModel {
   alias: string
@@ -13,6 +14,7 @@ interface CreateAccountModel {
 })
 export class CreateAccountView {
   svc = inject(AccountsService)
+  router = inject(Router)
 
   createAccountModel = signal<CreateAccountModel>(
     {
@@ -29,7 +31,10 @@ export class CreateAccountView {
       account_alias: this.createAccountModel().alias
     })
     .subscribe({
-      next: (result) => console.log('success', result),
+      next: (result) => {
+        console.log('success', result)
+        this.router.navigate(['/accounts'])
+      },
       error: (error) => console.log('error', error)
     })
     
