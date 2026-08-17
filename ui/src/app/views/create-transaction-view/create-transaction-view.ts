@@ -79,4 +79,8 @@ export class CreateTransactionView {
       error: (error) => console.log('error', error)
     })
   }
+
+  newCategory(){
+    this.router.navigate(['/create-category'])
+  }
 }
