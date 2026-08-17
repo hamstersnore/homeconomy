@@ -1,15 +1,14 @@
 import { Routes } from '@angular/router';
-import { SignUpView } from './views/sign-up-view/sign-up-view';
-import { SignInForm } from './sign-in-form/sign-in-form';
-import { GetTransactions } from './get-transactions/get-transactions'
+import { SignUpView } from './features/sign-up/views/sign-up-view/sign-up-view';
+import { GetTransactions } from './features/transactions/views/get-transactions/get-transactions'
 import { Dashboard } from './dashboard/dashboard';
-import { CreateCategory } from './create-category/create-category';
-import { OnboardingView } from './views/onboarding-view/onboarding-view';
-import { CreateAccountView } from './views/create-account-view/create-account-view';
-import { AccountsView } from './views/accounts-view/accounts-view';
-import { CreateTransactionView } from './views/create-transaction-view/create-transaction-view';
-import { CategoriesView } from './views/categories-view/categories-view';
-import { CreateCategoryView } from './views/create-category-view/create-category-view';
+import { OnboardingView } from './features/onboarding/onboarding-view/onboarding-view';
+import { CreateAccountView } from './features/accounts/views/create-account-view/create-account-view';
+import { CreateTransactionView } from './features/transactions/views/create-transaction-view/create-transaction-view';
+import { CreateCategoryView } from './features/categories/views/create-category-view/create-category-view';
+import { SignInForm } from './features/sign-in/views/sign-in-form/sign-in-form';
+import { AccountsView } from './features/accounts/views/accounts-view/accounts-view';
+import { CategoriesView } from './features/categories/views/categories-view/categories-view';
 
 export const routes: Routes = [
     { path: 'sign-up', component: SignUpView },
@@ -17,7 +16,7 @@ export const routes: Routes = [
     { path: 'create-transaction', component: CreateTransactionView },
     { path: 'transactions', component: GetTransactions },
     { path: 'dashboard', component: Dashboard },
-    { path: 'categories/new', component: CreateCategory },
+    { path: 'categories/new', component: CreateCategoryView },
     { path: 'onboarding', component: OnboardingView },
     { path: 'create-account', component: CreateAccountView },
     { path: 'accounts', component: AccountsView },

@@ -1,8 +1,13 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { environment } from "../../environments/environment";
-import { AuthService } from "./auth/auth-service";
 import { Observable } from "rxjs";
+import { AuthService } from "../features/sign-in/services/auth-service";
+
+export interface BaseApiResponse {
+    IsError:boolean
+    ErrorMessage:string
+}
 
 @Injectable({
     providedIn: 'root'

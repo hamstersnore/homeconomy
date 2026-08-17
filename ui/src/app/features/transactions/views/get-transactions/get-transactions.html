@@ -1,0 +1,40 @@
+<div class="flex flex-col p-20 space-y-8 bg-white rounded-xl w-full">
+  <h1 class="text-4xl font-bold text-gray-800">Transactions</h1>
+  @if (isDataLoaded()) {
+    <table class="table-auto text-center">
+      <thead class="border border-gray-200 bg-gray-100">
+        <tr>
+          <th class="px-4 py-3">Execution date</th>
+          <th class="px-4 py-3">Amount</th>
+          <th class="px-4 py-3">Concept</th>
+          <th class="px-4 py-3">AccountId</th>
+          <th class="px-4 py-3">Category</th>
+        </tr>
+      </thead>
+      <tbody class="bg-white">
+        @for (tr of transactions(); track tr.Id) {
+          <tr class="not-odd:bg-gray-50">
+            <td class="px-4 py-3 border-2 border-gray-200">
+              {{ tr.ExecutionDate | date: 'dd/MM/yyyy' }}
+            </td>
+            <td class="px-4 py-3 border-2 border-gray-200">{{ tr.Amount }} €</td>
+            <td class="px-4 py-3 border-2 border-gray-200">{{ tr.Concept }}</td>
+            <td class="px-4 py-3 border-2 border-gray-200">
+              {{ this.accountIdToName(tr.AccountId) }}
+            </td>
+            <td class="px-4 py-3 border-2 border-gray-200">
+              {{ this.categoryIdToName(tr.CategoryId) }}
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  } @else {
+    <p class="text-gray-500">No transactions found</p>
+  }
+  <a
+    [routerLink]="['/create-transaction']"
+    class="bg-gray-800 py-3 px-4 text-white font-bold rounded-lg self-end text-center"
+    >Create new transaction</a
+  >
+</div>
