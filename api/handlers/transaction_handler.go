@@ -4,11 +4,14 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"strconv"
 	"time"
 
+	"github.com/gorilla/mux"
 	"github.com/hamstersnore/homeconomy/database"
 	"github.com/hamstersnore/homeconomy/managers"
 	"github.com/hamstersnore/homeconomy/models"
+	repositories "github.com/hamstersnore/homeconomy/repositories/models"
 )
 
 func CreateTransaction(w http.ResponseWriter, r *http.Request) {
@@ -68,4 +71,30 @@ func GetTransactions(w http.ResponseWriter, r *http.Request) {
 		models.GetTransactionsResponse{
 			Transactions: transactions,
 		})
+}
+
+func DeleteTransactionHandler(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	idParameter := vars["id"]
+	id, err := strconv.Atoi(idParameter)
+	if err != nil {
+		log.Printf("Convert error -> %s\n", idParameter)
+		w.WriteHeader(http.StatusBadRequest)
+	}
+	db := database.OpenDb()
+	dbRow := db.QueryRow("SELECT * FROM transactions WHERE user_id = $1 AND id = $2", managers.GetClaims(r).Id, id)
+	if dbRow.Err() != nil {
+		log.Printf("Error getting element -> %s", err.Error())
+		w.WriteHeader(http.StatusNotFound)
+	}
+	var transactionDb repositories.TransactionDb
+	err = dbRow.Scan(&transactionDb.Id, &transactionDb.User_id)
+	if err != nil {
+		log.Printf("Error scanning row -> %s", err.Error())
+	}
+	dbRow = db.QueryRow("DELETE FROM transactions WHERE id = $1", id)
+	if dbRow.Err() != nil {
+		log.Printf("Error deleting row -> %s", err.Error())
+	}
+	w.WriteHeader(http.StatusOK)
 }

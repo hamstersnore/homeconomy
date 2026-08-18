@@ -27,9 +27,9 @@ type BudgetDb struct {
 }
 
 type TransactionDb struct {
-	id             int
+	Id             int
 	budget_id      int
-	user_id        int
+	User_id        int
 	amount         float32
 	execution_date time.Time
 	category_id    int

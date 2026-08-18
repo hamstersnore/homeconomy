@@ -8,6 +8,7 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/hamstersnore/homeconomy/database"
 	api "github.com/hamstersnore/homeconomy/handlers"
+	"github.com/hamstersnore/homeconomy/middleware"
 	_ "github.com/lib/pq"
 )
 
@@ -23,10 +24,12 @@ func main() {
 	r.HandleFunc("/auth/sign-in", api.SignInHandler).Methods("POST", "OPTIONS")
 	r.HandleFunc("/transactions", api.CreateTransaction).Methods("POST")
 	r.HandleFunc("/transactions", api.GetTransactions).Methods("GET")
+	r.HandleFunc("/transactions/{id:[0-9]+}", api.DeleteTransactionHandler).Methods("DELETE")
 	r.HandleFunc("/accounts", api.GetAccountsHandler).Methods("GET")
 	r.HandleFunc("/accounts", api.CreateAccountHandler).Methods("POST")
 	r.HandleFunc("/categories", api.CreateCategoryHandler).Methods("POST")
 	r.HandleFunc("/categories", api.GetCategoriesHandler).Methods("GET")
+	r.Use(middleware.LoggingMiddleware, middleware.AuthHttpHandler)
 
 	originsOk := handlers.AllowedOrigins([]string{"http://localhost:4200"})
 	methodsOk := handlers.AllowedMethods([]string{"GET", "POST", "OPTIONS", "PUT", "DELETE"})
