@@ -12,7 +12,7 @@ import (
 func AuthHttpHandler(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		tokenString := r.Header.Get("Authorization")
-		token, err := jwt.Parse(
+		_, err := jwt.Parse(
 			tokenString,
 			func(t *jwt.Token) (any, error) {
 				key := os.Getenv("SIGNING_KEY")
@@ -26,7 +26,6 @@ func AuthHttpHandler(next http.Handler) http.Handler {
 			}
 			log.Print(err.Error())
 		}
-		log.Println(token)
 		next.ServeHTTP(w, r)
 	})
 }

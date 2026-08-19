@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { SignUpView } from './features/sign-up/views/sign-up-view/sign-up-view';
 import { GetTransactions } from './features/transactions/views/get-transactions/get-transactions'
-import { Dashboard } from './dashboard/dashboard';
+import { Dashboard } from './dashboard/views/dashboard';
 import { OnboardingView } from './features/onboarding/onboarding-view/onboarding-view';
 import { CreateAccountView } from './features/accounts/views/create-account-view/create-account-view';
 import { CreateTransactionView } from './features/transactions/views/create-transaction-view/create-transaction-view';
@@ -22,4 +22,6 @@ export const routes: Routes = [
     { path: 'accounts', component: AccountsView },
     { path: 'categories', component: CategoriesView },
     { path: 'create-category', component: CreateCategoryView },
+    { path: '', redirectTo: 'dashboard', pathMatch: 'full'},
+
 ];

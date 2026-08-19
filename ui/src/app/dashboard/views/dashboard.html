@@ -3,15 +3,15 @@
         <div class="space-y-4">
             <h1 class="text-2xl">Balance</h1>
             <div class="flex flex-col justify-center items-center p-4">
-                <h2 class="text-6xl">4500 €</h2>
+                <h2 class="text-6xl">{{balance()}} €</h2>
             </div>
         </div>
         <div class="space-y-4">
             <h1 class="text-2xl">Expenses categorized</h1>
             <div>
-                <h1>Comida 60%</h1>
-                <h1>Ocio 25%</h1>
-                <h1>Combustible 15%</h1>
+                @for (item of categoryBalance(); track item) {
+                    <h1>{{item.CategoryName}} -> {{item.Balance}}</h1>
+                }
             </div>
         </div>
     </div>

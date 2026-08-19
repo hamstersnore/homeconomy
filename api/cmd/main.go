@@ -29,6 +29,8 @@ func main() {
 	r.HandleFunc("/accounts", api.CreateAccountHandler).Methods("POST")
 	r.HandleFunc("/categories", api.CreateCategoryHandler).Methods("POST")
 	r.HandleFunc("/categories", api.GetCategoriesHandler).Methods("GET")
+	r.HandleFunc("/dashboard/data", api.GetDashboardDataHandler).Methods("GET")
+
 	r.Use(middleware.LoggingMiddleware, middleware.AuthHttpHandler)
 
 	originsOk := handlers.AllowedOrigins([]string{"http://localhost:4200"})

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { SignInResponse, SignUpRequest } from '../models/sign-in.model';
 import { environment } from '../../../../environments/environment';
 import { BaseApiResponse } from '../../../services/base.service';
+import { Router } from '@angular/router';
 
 const SIGN_UP_URL = "auth/sign-up";
 const SIGN_IN_URL = "auth/sign-in";
@@ -16,6 +17,7 @@ export class AuthService {
   private readonly AUTH_TOKEN_KEY = 'homeconomy-authToken'
 
   private http = inject(HttpClient)
+  private router = inject(Router)
 
   signUp(username:string, password:string):boolean{
     
@@ -57,7 +59,9 @@ export class AuthService {
   getToken():string{
     var authToken = localStorage.getItem(this.AUTH_TOKEN_KEY)
     if (authToken === null){
-      throw new Error('Auth token not found')
+      console.error('Auth token not found')
+      this.router.navigate(['/sign-in'])
+      return ''
     }
     return authToken
   }

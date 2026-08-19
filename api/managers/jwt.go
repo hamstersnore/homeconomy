@@ -41,11 +41,9 @@ func GenerateJwt(userId int, username string) string {
 
 func GetClaims(r *http.Request) *HomeconomyClaims {
 	authHeader := r.Header.Get("Authorization")
-	log.Printf("auth header -> %s", authHeader)
 	token, err := jwt.ParseWithClaims(authHeader, &HomeconomyClaims{}, func(token *jwt.Token) (any, error) {
 		return []byte(os.Getenv("SIGNING_KEY")), nil
 	})
-	log.Printf("Is token valid: %v", token.Valid)
 
 	if err != nil {
 		log.Printf("ERROR: %s", err)

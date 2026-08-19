@@ -10,6 +10,7 @@ import { CategoryService } from '../../../categories/services/categories-service
 export interface CreateTransactionFormModel {
   AccountId:string
 	Amount:number
+  Type:string
 	Concept:string
 	CategoryId:string
   ExecutionDate:Date
@@ -33,6 +34,7 @@ export class CreateTransactionView {
     AccountId: '',
     Concept: '',
     Amount: 0.00,
+    Type: 'expense',
     BudgetId: null,
     CategoryId: '',
     ExecutionDate: new Date(Date.now())
@@ -45,6 +47,7 @@ export class CreateTransactionView {
     this.transactionService.createTransaction({
       AccountId: parseInt(this.createTransactionModel().AccountId),
       Amount: this.createTransactionModel().Amount,
+      Type: this.createTransactionModel().Type,
       BudgetId: this.createTransactionModel().BudgetId,
       CategoryId: parseInt(this.createTransactionModel().CategoryId),
       Concept: this.createTransactionModel().Concept,

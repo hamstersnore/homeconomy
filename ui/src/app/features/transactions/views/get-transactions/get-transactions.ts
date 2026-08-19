@@ -42,8 +42,11 @@ export class GetTransactions {
     .subscribe({
       next: (result) => {
         console.log('ok',result)
-        this.transactions.set(result.Transactions.sort((a,b) => a.ExecutionDate > b.ExecutionDate ? 1 : -1).reverse())
-        this.isDataLoaded.set(true)
+        if (result.Transactions !== null && result.Transactions.length > 0){
+          result.Transactions.sort((a,b) => a.ExecutionDate > b.ExecutionDate ? 1 : -1).reverse()
+          this.transactions.set(result.Transactions)
+          this.isDataLoaded.set(true)
+        }
       },
       error: (error) => console.log('error', error)
     })
@@ -55,5 +58,22 @@ export class GetTransactions {
 
   accountIdToName(id:number):string{
     return this.accounts().filter(e => e.id == id).at(0)?.alias ?? 'unknown'
+  }
+
+  deleteTransaction(id:number){
+    let isConfirmed:boolean = confirm("Do you really want to delete the transaction ?")
+    if (isConfirmed){
+      this.transactionsService.deleteTransaction(id)
+        .subscribe({
+          next: (result) => this.transactions.set(this.transactions().filter(t => t.Id !== id))
+        })
+    }
+  }
+
+  getSymbol(tr:TransactionDto){
+    if (tr.Type === "expense") {
+      return '-'
+    }
+    return '+'
   }
 }

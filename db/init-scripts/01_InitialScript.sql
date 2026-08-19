@@ -6,6 +6,14 @@ CREATE TABLE users (
     updated_at TIMESTAMP DEFAULT NULL
 );
 
+CREATE TABLE transaction_types (
+    name VARCHAR(50) PRIMARY KEY
+);
+
+INSERT INTO transaction_types (name) VALUES ('income');
+INSERT INTO transaction_types (name) VALUES ('expense');
+INSERT INTO transaction_types (name) VALUES ('transfer');
+
 CREATE TABLE accounts (
     id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     owner_id INT REFERENCES users(id),
@@ -33,7 +41,7 @@ CREATE TABLE budget_members (
 
 CREATE TABLE categories (
     id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    alias VARCHAR(255),
+    alias VARCHAR(255) UNIQUE,
     description VARCHAR(255),
     created_at TIMESTAMP,
     updated_at TIMESTAMP DEFAULT NULL
@@ -45,6 +53,7 @@ CREATE TABLE transactions (
     user_id INT REFERENCES users(id),
     concept VARCHAR(255),
     amount NUMERIC(14,2),
+    type VARCHAR(50) REFERENCES transaction_types(name),
     execution_date TIMESTAMP,
     category_id int REFERENCES categories(id),
     budget_id int REFERENCES budgets(id) DEFAULT NULL,

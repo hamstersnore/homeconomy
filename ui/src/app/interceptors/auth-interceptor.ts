@@ -10,7 +10,7 @@ export function authInterceptor(
     let router = inject(Router)
     return next(req).pipe(
         catchError((err: HttpErrorResponse) => {
-            console.log('Error from interceptor')
+            console.error(err.message, err)
             if (err.status === HttpStatusCode.Unauthorized) {
                 console.log("Intercepted 401 as error")
                 router.navigate(['/sign-in'])
@@ -18,6 +18,9 @@ export function authInterceptor(
             return next(req)
         }),
         tap((event) => {
+            if (event.type === HttpEventType.Sent) {
+                console.log('[REQUEST] -> ',req.method, req.urlWithParams, req.method !== 'GET' ? JSON.stringify(req.body) : null)
+            }
             if (event.type === HttpEventType.Response) {
                 console.log('[RESPONSE] -> ', JSON.stringify(event.body))
             }

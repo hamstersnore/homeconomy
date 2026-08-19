@@ -11,7 +11,7 @@ import (
 	"github.com/hamstersnore/homeconomy/database"
 	"github.com/hamstersnore/homeconomy/managers"
 	"github.com/hamstersnore/homeconomy/models"
-	repositories "github.com/hamstersnore/homeconomy/repositories/models"
+	"github.com/hamstersnore/homeconomy/repositories"
 )
 
 func CreateTransaction(w http.ResponseWriter, r *http.Request) {
@@ -23,13 +23,14 @@ func CreateTransaction(w http.ResponseWriter, r *http.Request) {
 
 	err := db.QueryRow(
 		`INSERT INTO transactions 
-		(account_id, user_id, concept, amount, execution_date, category_id, budget_id, created_at)
-		VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+		(account_id, user_id, concept, amount, type, execution_date, category_id, budget_id, created_at)
+		VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
 		RETURNING id, created_at`,
 		request.AccountId,
 		managers.GetClaims(r).Id,
 		request.Concept,
 		request.Amount,
+		request.Type,
 		request.ExecutionDate,
 		request.CategoryId,
 		request.BudgetId,
@@ -61,8 +62,12 @@ func GetTransactions(w http.ResponseWriter, r *http.Request) {
 
 	for rows.Next() {
 		var t models.TransactionDto
-		if err := rows.Scan(&t.Id, &t.AccountId, &t.UserId, &t.Concept, &t.Amount, &t.ExecutionDate, &t.CategoryId, &t.BudgetId, &t.CreatedAt, &t.UpdatedAt); err != nil {
-			return
+		err := rows.Scan(&t.Id, &t.AccountId, &t.UserId,
+			&t.Concept, &t.Amount, &t.Type, &t.ExecutionDate, &t.CategoryId,
+			&t.BudgetId, &t.CreatedAt, &t.UpdatedAt)
+
+		if err != nil {
+			log.Println(err.Error())
 		}
 		transactions = append(transactions, t)
 	}
@@ -88,7 +93,7 @@ func DeleteTransactionHandler(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusNotFound)
 	}
 	var transactionDb repositories.TransactionDb
-	err = dbRow.Scan(&transactionDb.Id, &transactionDb.User_id)
+	err = dbRow.Scan(&transactionDb.Id, &transactionDb.UserId)
 	if err != nil {
 		log.Printf("Error scanning row -> %s", err.Error())
 	}

@@ -8,7 +8,7 @@ import (
 	"github.com/hamstersnore/homeconomy/database"
 	"github.com/hamstersnore/homeconomy/managers"
 	"github.com/hamstersnore/homeconomy/models"
-	repositories "github.com/hamstersnore/homeconomy/repositories/models"
+	"github.com/hamstersnore/homeconomy/repositories"
 )
 
 func SignUpHandler(w http.ResponseWriter, r *http.Request) {

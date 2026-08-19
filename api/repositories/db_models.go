@@ -27,12 +27,23 @@ type BudgetDb struct {
 }
 
 type TransactionDb struct {
-	Id             int
-	budget_id      int
-	User_id        int
-	amount         float32
-	execution_date time.Time
-	category_id    int
-	created_at     time.Time
-	updated_at     *time.Time
+	Id            int
+	AccountId     int
+	UserId        int
+	Concept       string
+	Amount        float32
+	Type          string
+	ExecutionDate time.Time
+	CategoryId    int
+	BudgetId      *int
+	CreatedAt     time.Time
+	UpdatedAt     *time.Time
+}
+
+type CategoryDb struct {
+	Id          int
+	Alias       string
+	Description *string
+	CreatedAt   time.Time
+	UpdatedAt   *time.Time
 }

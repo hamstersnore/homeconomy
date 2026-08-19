@@ -9,6 +9,7 @@
           <th class="px-4 py-3">Concept</th>
           <th class="px-4 py-3">AccountId</th>
           <th class="px-4 py-3">Category</th>
+          <th class="px-4 py-3">Actions</th>
         </tr>
       </thead>
       <tbody class="bg-white">
@@ -17,13 +18,16 @@
             <td class="px-4 py-3 border-2 border-gray-200">
               {{ tr.ExecutionDate | date: 'dd/MM/yyyy' }}
             </td>
-            <td class="px-4 py-3 border-2 border-gray-200">{{ tr.Amount }} €</td>
+            <td class="px-4 py-3 border-2 border-gray-200">{{getSymbol(tr) + ' ' + tr.Amount }} €</td>
             <td class="px-4 py-3 border-2 border-gray-200">{{ tr.Concept }}</td>
             <td class="px-4 py-3 border-2 border-gray-200">
               {{ this.accountIdToName(tr.AccountId) }}
             </td>
             <td class="px-4 py-3 border-2 border-gray-200">
               {{ this.categoryIdToName(tr.CategoryId) }}
+            </td>
+            <td class="px-4 py-3 border-2 border-gray-200 align-middle">
+              <a class="cursor-pointer" (click)="deleteTransaction(tr.Id)"><img class="h-6 mx-auto" src="/icons/delete.svg" /></a> 
             </td>
           </tr>
         }

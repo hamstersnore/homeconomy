@@ -23,21 +23,35 @@ export class BaseService {
             this.basePath + url,
             body,
             {
-                headers: new HttpHeaders({"Authorization": this.authService.getToken()})
+                headers: this.buildHeaders()
             }
         )
     }
 
     get<TResponse>(url:string):Observable<TResponse>{
         url = this.basePath + url
-        console.log('Sending to ', url)
         return this.http.get<TResponse>(
             url,
             {
-                headers: new HttpHeaders({
-                    "Authorization": this.authService.getToken()})
+                headers: this.buildHeaders()
                 
             }
         )
+    }
+
+    delete(url:string):Observable<any>{
+        url = this.basePath + url
+        return this.http.delete(
+            url,
+            {
+                headers: this.buildHeaders() 
+            }
+        )
+    }
+
+    private buildHeaders():HttpHeaders{
+        return new HttpHeaders({
+                    "Authorization": this.authService.getToken()
+                })
     }
 }

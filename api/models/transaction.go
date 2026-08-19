@@ -8,6 +8,7 @@ type TransactionDto struct {
 	UserId        int
 	Concept       string
 	Amount        float32
+	Type          string
 	ExecutionDate time.Time
 	CategoryId    int
 	BudgetId      *int
@@ -18,6 +19,7 @@ type TransactionDto struct {
 type CreateTransactionRequest struct {
 	AccountId     int
 	Amount        float32
+	Type          string
 	Concept       string
 	CategoryId    int
 	ExecutionDate time.Time

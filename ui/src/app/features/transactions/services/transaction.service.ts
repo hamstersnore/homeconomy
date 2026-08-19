@@ -20,6 +20,10 @@ export class TransactionService {
     updateTransaction(){
 
     }
+
+    deleteTransaction(id:number):Observable<any>{
+        return this.baseService.delete('transactions/' + id)
+    }
 }
 
 export interface GetTransactionsResponse {
