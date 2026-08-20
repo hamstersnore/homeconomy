@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/hamstersnore/homeconomy/database"
 	"github.com/hamstersnore/homeconomy/managers"
@@ -38,9 +39,14 @@ func GetDashboardDataHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var balance float32
+	var balanceThisMonth float32
+	now := time.Now()
 
 	for _, tr := range dbTransactions {
 		balance += getSignedAmount(tr)
+		if tr.ExecutionDate.Month() == now.Month() {
+			balanceThisMonth += getSignedAmount(tr)
+		}
 	}
 
 	categories := repositories.GetCategories()
@@ -54,8 +60,9 @@ func GetDashboardDataHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	json.NewEncoder(w).Encode(models.GetDashboardDataResponse{
-		Balance:         balance,
-		CategoryBalance: categoriesBalance,
+		Balance:          balance,
+		CategoryBalance:  categoriesBalance,
+		BalanceThisMonth: balanceThisMonth,
 	})
 }
 
