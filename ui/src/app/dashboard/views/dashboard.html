@@ -1,67 +1,31 @@
 <div class="h-dvh w-full flex flex-col p-20 items-center space-y-4">
-    <div class="bg-white rounded-xl p-20 w-full flex flex-row space-y-8 space-x-4 justify-around">
-        <div class="space-y-4">
-            <h1 class="text-2xl">Balance</h1>
-            <div class="flex flex-col justify-center items-center p-4">
-                <h2 class="text-5xl">{{balance() | currency: 'EUR' : 'symbol' : '1.2-2'}}</h2>
-            </div>
-            <h2 class="text-xl">This month:</h2>
-            <h2 class="text-4xl">{{balanceThisMonth() | currency: 'EUR'}}</h2>
-        </div>
-        <div class="space-y-4">
-            <h1 class="text-2xl">Expenses categorized</h1>
-            <table class="">
-                <thead class="bg-gray-300 rounded-xl">
-                    <th class="px-4 py-3">Category</th>
-                    <th class="px-4 py-3">Balance</th>
-                </thead>
-                <tbody>
-                @for (item of categoryBalance(); track item) {
-                    <tr>
-                        <td class="px-4 py-3 text-center">{{item.CategoryName}}</td>
-                        <td class="px-4 py-3 text-center">{{item.Balance | currency: 'EUR'}}</td>
-                }
-                </tbody>
-            </table>
-        </div>
+    <canvas baseChart [type]="'bar'"></canvas>
+  <div class="rounded-xl min-w-6xl grid grid-cols-3 gap-x-4">
+    <div class="bg-white rounded-xl p-10 w-full">
+      <h4>Balance</h4>
+      <div class="p-10 flex flex-col justify-center items-center">
+        <p class="text-5xl">{{ balance() | currency: 'EUR' }}</p>
+      </div>
     </div>
-    <div class="bg-white rounded-xl p-20 w-full flex flex-col space-y-8">
-        <h1 class="text-2xl">Ultimos movimientos</h1>
-        <table>
-            <thead>
-                <tr>
-                    <th class="p-4 rounded-tl-xl text-center bg-gray-200">Concepto</th>
-                    <th class="p-4 text-center bg-gray-200">Importe</th>
-                    <th class="p-4 text-center bg-gray-200">Categoría</th>
-                    <th class="p-4 rounded-tr-xl text-center bg-gray-200">Fecha de ejecución</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="bg-gray-50 p-4 text-center">Restaurante Indio</td>
-                    <td class="bg-gray-50 p-4 text-center">22.49 €</td>
-                    <td class="bg-gray-50 p-4 text-center">Comida</td>
-                    <td class="bg-gray-50 p-4 text-center">27/06/2026</td>
-                </tr>
-                <tr>
-                    <td class="bg-gray-50 p-4 text-center">Mercadona</td>
-                    <td class="bg-gray-50 p-4 text-center">46.60 €</td>
-                    <td class="bg-gray-50 p-4 text-center">Comida</td>
-                    <td class="bg-gray-50 p-4 text-center">26/06/2026</td>
-                </tr>
-                <tr>
-                    <td class="bg-gray-50 p-4 text-center">Zelda Ocarina of time</td>
-                    <td class="bg-gray-50 p-4 text-center">80.00 €</td>
-                    <td class="bg-gray-50 p-4 text-center">Ocio</td>
-                    <td class="bg-gray-50 p-4 text-center">23/06/2026</td>
-                </tr>
-                <tr>
-                    <td class="bg-gray-50 rounded-bl-xl p-4 text-center">Repsol Algarrobo</td>
-                    <td class="bg-gray-50 p-4 text-center">41.12 €</td>
-                    <td class="bg-gray-50 p-4 text-center">Combustible</td>
-                    <td class="bg-gray-50 rounded-br-xl p-4 text-center">26/06/2026</td>
-                </tr>
-            </tbody>
-        </table>
+    <div class="bg-white rounded-xl p-10 w-full">
+      <h4>Income</h4>
+      <div class="p-10 flex flex-col justify-center items-center">
+        <p class="text-5xl">{{ 2000 | currency: 'EUR' }}</p>
+      </div>
     </div>
+    <div class="bg-white rounded-xl p-10 w-full">
+      <h4>Expense</h4>
+      <div class="p-10 flex flex-col justify-center items-center">
+        <p class="text-5xl">{{ -600 | currency: 'EUR' }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="grid grid-cols-6 gap-4 w-full">
+    @for (item of categoryBalance(); track item) {
+      <div class="bg-white rounded-xl">
+        <dl class="px-4 py-3 text-center">{{ item.CategoryName }}</dl>
+        <dd class="px-4 py-3 text-center">{{ item.Balance | currency: 'EUR' }}</dd>
+      </div>
+    }
+  </div>
 </div>
