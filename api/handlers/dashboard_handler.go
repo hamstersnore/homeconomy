@@ -38,47 +38,53 @@ func GetDashboardDataHandler(w http.ResponseWriter, r *http.Request) {
 		dbTransactions = append(dbTransactions, tr)
 	}
 
-	var balance float32
-	var balanceThisMonth float32
 	now := time.Now()
 
+	var response models.GetDashboardDataResponse = models.GetDashboardDataResponse{
+		Balance:          models.Balance{},
+		CategoryBalance:  []models.CategoryBalance{},
+		BalanceThisMonth: models.Balance{},
+	}
+
 	for _, tr := range dbTransactions {
-		balance += getSignedAmount(tr)
+		computeBalance(tr, &response.Balance)
 		if tr.ExecutionDate.Month() == now.Month() {
-			balanceThisMonth += getSignedAmount(tr)
+			computeBalance(tr, &response.BalanceThisMonth)
 		}
 	}
 
 	categories := repositories.GetCategories()
-	var categoriesBalance []models.CategoryBalance
+
 	for _, c := range categories {
-		categoriesBalance = append(categoriesBalance, models.CategoryBalance{
+		catBalance := SumByCategoryId(dbTransactions, c.Id)
+		// Getting categories with expenses
+		response.CategoryBalance = append(response.CategoryBalance, models.CategoryBalance{
 			CategoryId:   c.Id,
 			CategoryName: c.Alias,
-			Balance:      SumByCategoryId(dbTransactions, c.Id),
+			Balance:      catBalance,
 		})
 	}
 
-	json.NewEncoder(w).Encode(models.GetDashboardDataResponse{
-		Balance:          balance,
-		CategoryBalance:  categoriesBalance,
-		BalanceThisMonth: balanceThisMonth,
-	})
+	json.NewEncoder(w).Encode(response)
 }
 
 func SumByCategoryId(dbTransactions []repositories.TransactionDb, i int) float32 {
 	var b float32
 	for _, tr := range dbTransactions {
 		if tr.CategoryId == i {
-			b += getSignedAmount(tr)
+			b += tr.Amount
 		}
 	}
 	return b
 }
 
-func getSignedAmount(r repositories.TransactionDb) float32 {
-	if r.Type == "expense" {
-		return (-1) * r.Amount
+func computeBalance(tr repositories.TransactionDb, balance *models.Balance) {
+	switch tr.Type {
+	case "expense":
+		balance.Expense += tr.Amount
+		balance.Balance -= tr.Amount
+	case "income":
+		balance.Income += tr.Amount
+		balance.Balance += tr.Amount
 	}
-	return r.Amount
 }

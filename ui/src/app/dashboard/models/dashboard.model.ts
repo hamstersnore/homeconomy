@@ -1,11 +1,17 @@
 export interface GetDashboardDataResponse {
-    Balance: number
+    Balance: Balance
     CategoryBalance: CategoryBalance[]
-    BalanceThisMonth: number
+    BalanceThisMonth: Balance
 }
 
 export interface CategoryBalance {
     CategoryId: number
     CategoryName: string
     Balance: number
+}
+
+export interface Balance {
+    Balance: number
+    Expense: number
+    Income: number
 }
