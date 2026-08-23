@@ -41,9 +41,9 @@ func GetDashboardDataHandler(w http.ResponseWriter, r *http.Request) {
 	now := time.Now()
 
 	var response models.GetDashboardDataResponse = models.GetDashboardDataResponse{
-		Balance:          models.Balance{},
-		CategoryBalance:  []models.CategoryBalance{},
-		BalanceThisMonth: models.Balance{},
+		Balance:                  models.Balance{},
+		CategoryBalanceThisMonth: []models.CategoryBalance{},
+		BalanceThisMonth:         models.Balance{},
 	}
 
 	for _, tr := range dbTransactions {
@@ -56,9 +56,9 @@ func GetDashboardDataHandler(w http.ResponseWriter, r *http.Request) {
 	categories := repositories.GetCategories()
 
 	for _, c := range categories {
-		catBalance := SumByCategoryId(dbTransactions, c.Id)
+		catBalance := SumByCategoryIdForMonth(dbTransactions, c.Id, now.Month())
 		// Getting categories with expenses
-		response.CategoryBalance = append(response.CategoryBalance, models.CategoryBalance{
+		response.CategoryBalanceThisMonth = append(response.CategoryBalanceThisMonth, models.CategoryBalance{
 			CategoryId:   c.Id,
 			CategoryName: c.Alias,
 			Balance:      catBalance,
@@ -68,10 +68,10 @@ func GetDashboardDataHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(response)
 }
 
-func SumByCategoryId(dbTransactions []repositories.TransactionDb, i int) float32 {
+func SumByCategoryIdForMonth(dbTransactions []repositories.TransactionDb, i int, m time.Month) float32 {
 	var b float32
 	for _, tr := range dbTransactions {
-		if tr.CategoryId == i {
+		if tr.CategoryId == i && tr.ExecutionDate.Month() == m {
 			b += tr.Amount
 		}
 	}

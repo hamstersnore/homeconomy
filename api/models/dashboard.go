@@ -1,9 +1,9 @@
 package models
 
 type GetDashboardDataResponse struct {
-	Balance          Balance
-	CategoryBalance  []CategoryBalance
-	BalanceThisMonth Balance
+	Balance                  Balance
+	CategoryBalanceThisMonth []CategoryBalance
+	BalanceThisMonth         Balance
 }
 
 type CategoryBalance struct {
