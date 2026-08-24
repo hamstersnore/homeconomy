@@ -42,7 +42,7 @@ export class Dashboard {
       .subscribe({
         next: (result) => {
           this.balance.set(result.Balance)
-          this.categoryBalance.set(result.CategoryBalance)
+          this.categoryBalance.set(result.CategoryBalanceThisMonth)
           this.balanceThisMonth.set(result.BalanceThisMonth)
         }
       })

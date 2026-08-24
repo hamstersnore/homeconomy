@@ -2,11 +2,11 @@ import { Component, inject, signal } from '@angular/core';
 import { AccountsService } from '../../services/accounts-service';
 import { Account } from '../../models/account.model';
 import { DatePipe } from '@angular/common';
-import { RouterLink } from "@angular/router";
+import { HomeconomyButton } from "../../../../components/homeconomy-button";
 
 @Component({
   selector: 'app-accounts-view',
-  imports: [DatePipe, RouterLink],
+  imports: [DatePipe, HomeconomyButton],
   templateUrl: './accounts-view.html',
 })
 export class AccountsView {

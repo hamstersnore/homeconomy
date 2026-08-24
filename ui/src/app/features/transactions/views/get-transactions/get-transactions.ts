@@ -1,16 +1,17 @@
 import { DatePipe } from '@angular/common';
 import { Component, inject, signal, WritableSignal } from '@angular/core';
-import { RouterLink } from "@angular/router";
+import { Router } from "@angular/router";
 import { TransactionService } from '../../services/transaction.service';
 import { TransactionDto } from '../../models/transaction.model';
 import { CategoryService } from '../../../categories/services/categories-service'
 import { Category } from '../../../categories/models/category.model'
 import { AccountsService as AccountService } from '../../../accounts/services/accounts-service';
 import { Account } from '../../../accounts/models/account.model';
+import { HomeconomyButton } from "../../../../components/homeconomy-button";
 
 @Component({
   selector: 'app-get-transactions',
-  imports: [DatePipe, RouterLink],
+  imports: [DatePipe, HomeconomyButton],
   templateUrl: './get-transactions.html',
 })
 export class GetTransactions {
@@ -18,6 +19,7 @@ export class GetTransactions {
   private transactionsService = inject(TransactionService)
   private categoryService = inject(CategoryService)
   private accountService = inject(AccountService)
+  private router = inject(Router)
 
   transactions:WritableSignal<TransactionDto[]> = signal([])
   categories = signal<Category[]>([])
@@ -68,6 +70,10 @@ export class GetTransactions {
           next: (result) => this.transactions.set(this.transactions().filter(t => t.Id !== id))
         })
     }
+  }
+
+  navigateToUpdate(t:TransactionDto) {
+    this.router.navigate([t.Id +'/update'])
   }
 
   getSymbol(tr:TransactionDto){

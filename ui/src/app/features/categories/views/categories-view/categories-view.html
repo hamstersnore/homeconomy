@@ -1,7 +1,7 @@
   <div class="flex flex-col bg-white rounded-xl p-20 w-full space-y-8 shadow">
-    <div class="px-8 flex flex-row justify-between">
+    <div class="px-8 flex flex-row justify-between items-center">
       <h1 class="font-bold text-2xl">Categories</h1>
-      <a routerLink="/create-category" class="bg-gray-600 text-white rounded-xl text-center px-4 py-2 w-40">New</a>
+      <homeconomy-button [link]="'/create-category'" [text]="'New category'"></homeconomy-button>
     </div>
     <div class="flex flex-col rounded-xl px-8">
       <div class="flex flex-row font-bold bg-gray-200 p-2 rounded-tl-xl rounded-tr-xl w-2xl">

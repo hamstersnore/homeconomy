@@ -1,6 +1,6 @@
 export interface GetDashboardDataResponse {
     Balance: Balance
-    CategoryBalance: CategoryBalance[]
+    CategoryBalanceThisMonth: CategoryBalance[]
     BalanceThisMonth: Balance
 }
 

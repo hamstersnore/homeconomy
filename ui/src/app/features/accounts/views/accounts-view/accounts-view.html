@@ -1,6 +1,7 @@
 <div class="flex flex-col bg-white rounded-xl p-20 w-full space-y-8 shadow">
-  <div class="px-8 flex flex-row justify-between">
+  <div class="px-8 flex flex-row justify-between items-center">
     <h1 class="font-bold text-2xl">My accounts</h1>
+    <homeconomy-button [link]="'/create-account'" [text]="'New account'"></homeconomy-button>
   </div>
   <div class="flex flex-col rounded-xl px-8 w-2xl">
     <div class="flex flex-row font-bold bg-gray-200 p-2 rounded-tl-xl rounded-tr-xl">
@@ -19,10 +20,5 @@
         <div class="flex-1 text-center">{{ item.updated_at }}</div>
       </div>
     }
-    <a
-      routerLink="/create-account"
-      class="bg-gray-600 text-white rounded-xl text-center px-4 py-2 w-40 self-end mt-6"
-      >New</a
-    >
   </div>
 </div>

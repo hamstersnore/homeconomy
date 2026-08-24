@@ -1,5 +1,5 @@
 import { inject, Injectable } from "@angular/core";
-import { BaseService } from "../../services/base.service";
+import { BaseService } from "../../../services/base.service";
 import { GetDashboardDataResponse } from "../models/dashboard.model";
 import { Observable } from "rxjs";
 
