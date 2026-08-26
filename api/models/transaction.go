@@ -33,3 +33,7 @@ type CreateTransactionResponse struct {
 type GetTransactionsResponse struct {
 	Transactions []TransactionDto
 }
+
+type GetTransactionResponse struct {
+	Transaction TransactionDto
+}

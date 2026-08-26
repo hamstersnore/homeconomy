@@ -10,6 +10,7 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/hamstersnore/homeconomy/database"
 	"github.com/hamstersnore/homeconomy/managers"
+	"github.com/hamstersnore/homeconomy/mappers"
 	"github.com/hamstersnore/homeconomy/models"
 	"github.com/hamstersnore/homeconomy/repositories"
 )
@@ -102,4 +103,15 @@ func DeleteTransactionHandler(w http.ResponseWriter, r *http.Request) {
 		log.Printf("Error deleting row -> %s", err.Error())
 	}
 	w.WriteHeader(http.StatusOK)
+}
+
+func GetTransactionByIdHandler(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	idParameter := vars["id"]
+	id, err := strconv.Atoi(idParameter)
+	if err != nil {
+		log.Println(err.Error())
+	}
+	dbTransaction := repositories.GetTransactionById(managers.GetClaims(r).Id, id)
+	json.NewEncoder(w).Encode(models.GetTransactionResponse{Transaction: mappers.ToTransactionDto(dbTransaction)})
 }

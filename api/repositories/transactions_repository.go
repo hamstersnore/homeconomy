@@ -19,13 +19,13 @@ func GetTransactionsByUserAndMonth(userId int, month time.Month) []TransactionDb
 		return trs
 	}
 	for queryResult.Next() {
-		tr := scanTransaction(queryResult)
+		tr := scanTransactionFromRows(queryResult)
 		trs = append(trs, tr)
 	}
 	return trs
 }
 
-func scanTransaction(rows *sql.Rows) TransactionDb {
+func scanTransactionFromRows(rows *sql.Rows) TransactionDb {
 	t := TransactionDb{}
 	err := rows.Scan(
 		&t.Id,
@@ -44,4 +44,34 @@ func scanTransaction(rows *sql.Rows) TransactionDb {
 		log.Print(err.Error())
 	}
 	return t
+}
+
+func scanTransactionFromRow(rows *sql.Row) TransactionDb {
+	t := TransactionDb{}
+	err := rows.Scan(
+		&t.Id,
+		&t.AccountId,
+		&t.UserId,
+		&t.Concept,
+		&t.Amount,
+		&t.Type,
+		&t.ExecutionDate,
+		&t.CategoryId,
+		&t.BudgetId,
+		&t.CreatedAt,
+		&t.UpdatedAt,
+	)
+	if err != nil {
+		log.Print(err.Error())
+	}
+	return t
+}
+
+func GetTransactionById(userId int, trId int) TransactionDb {
+	db := database.OpenDb()
+	queryResult := db.QueryRow("SELECT * FROM transactions WHERE user_id = $1 AND id = $2", userId, trId)
+	if queryResult.Err() != nil {
+		log.Println(queryResult.Err().Error())
+	}
+	return scanTransactionFromRow(queryResult)
 }
