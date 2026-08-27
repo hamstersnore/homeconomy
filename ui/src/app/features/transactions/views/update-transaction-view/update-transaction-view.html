@@ -1,0 +1,72 @@
+  <div class="flex flex-col p-20 w-2xl space-y-4 rounded-xl bg-white shadow">
+    <h1 class="text-gray-800 text-4xl font-bold mb-8">Save a new transaction</h1>
+    <form class="flex flex-col space-y-4" (submit)="onSubmit($event)">
+      <div class="flex flex-col space-y-1">
+        <label>Concept</label>
+        <input
+          class="border rounded-xl px-4 py-3 bg-white"
+          type="text"
+          placeholder="Type the concept"
+          [formField]="updateTransactionForm.Concept"
+        />
+      </div>
+      <div class="flex flex-col space-y-1">
+        <label>Amount</label>
+        <input
+          class="border rounded-xl px-4 py-2 bg-white"
+          type="number"
+          placeholder="0.00"
+          step="0.01"
+          [formField]="updateTransactionForm.Amount"
+        />
+        <div class="flex flex-col space-y-1">
+          <label>Type</label>
+          <select
+            class="border px-4 py-3 rounded-xl"
+           [formField]="updateTransactionForm.Type">
+            <option value="expense">Expense</option>
+            <option value="income">Income</option>
+            <option value="transfer">Transfer</option>
+          </select>
+        </div>
+      </div>
+      <div class="flex flex-col space-y-1">
+        <label>Execution Date</label>
+        <input
+          class="border rounded-xl px-4 py-2"
+          type="date"
+          [formField]="updateTransactionForm.ExecutionDate"
+        />
+      </div>
+      <div class="flex flex-col space-y-1">
+        <label>Account</label>
+        <select 
+          class="border px-4 py-3 rounded-xl"
+          [formField]="updateTransactionForm.AccountId">
+          @for (item of accounts(); track item.id) {
+            <option value="{{ item.id }}">{{ item.alias }}</option>
+          }
+        </select>
+      </div>
+      <div class="flex flex-col space-y-1">
+        <label>Category</label>
+        <select class="border px-4 py-3 rounded-xl" 
+          [formField]="updateTransactionForm.CategoryId">
+          @for (item of categories(); track item.Id) {
+            <option value="{{ item.Id }}">{{ item.Alias }}</option>
+          }
+            <option class="bg-gray-50 font-bold" (click)="newCategory()">--- Create new category ---</option>
+        </select>
+      </div>
+      <div class="flex flex-col space-y-1">
+        <label>Budget</label>
+      </div>
+      <button
+        class="mt-4 border rounded-lg bg-gray-800 text-white py-3 font-bold"
+        type="submit"
+        value="Save"
+      >
+        Save
+      </button>
+    </form>
+  </div>

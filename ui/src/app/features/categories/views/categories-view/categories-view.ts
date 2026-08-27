@@ -1,12 +1,11 @@
 import { Component, inject, signal } from '@angular/core';
-import { DatePipe } from '@angular/common';
 import { CategoryService } from '../../services/categories-service';
 import { Category } from '../../models/category.model';
 import { HomeconomyButton } from "../../../../components/homeconomy-button";
 
 @Component({
   selector: 'app-categories-view',
-  imports: [DatePipe, HomeconomyButton],
+  imports: [HomeconomyButton],
   templateUrl: './categories-view.html',
 })
 export class CategoriesView {

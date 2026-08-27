@@ -73,7 +73,7 @@ export class GetTransactions {
   }
 
   navigateToUpdate(t:TransactionDto) {
-    this.router.navigate([t.Id +'/update'])
+    this.router.navigate(['transactions/' + t.Id + '/update'])
   }
 
   getSymbol(tr:TransactionDto){

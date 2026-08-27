@@ -9,12 +9,14 @@ import { CreateCategoryView } from './features/categories/views/create-category-
 import { SignInForm } from './features/sign-in/views/sign-in-form/sign-in-form';
 import { AccountsView } from './features/accounts/views/accounts-view/accounts-view';
 import { CategoriesView } from './features/categories/views/categories-view/categories-view';
+import { UpdateTransactionView } from './features/transactions/views/update-transaction-view/update-transaction-view';
 
 export const routes: Routes = [
     { path: 'sign-up', component: SignUpView },
     { path: 'sign-in', component: SignInForm },
     { path: 'create-transaction', component: CreateTransactionView },
     { path: 'transactions', component: GetTransactions },
+    { path: 'transactions/:id/update', component: UpdateTransactionView},
     { path: 'dashboard', component: Dashboard },
     { path: 'categories/new', component: CreateCategoryView },
     { path: 'onboarding', component: OnboardingView },
