@@ -37,3 +37,17 @@ type GetTransactionsResponse struct {
 type GetTransactionResponse struct {
 	Transaction TransactionDto
 }
+
+type UpdateTransactionResponse struct {
+	UpdatedTransaction TransactionDto
+}
+
+type UpdateTransactionRequest struct {
+	AccountId     int
+	Amount        float32
+	Type          string
+	Concept       string
+	CategoryId    int
+	ExecutionDate time.Time
+	BudgetId      *int
+}

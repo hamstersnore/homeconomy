@@ -26,6 +26,7 @@ func main() {
 	r.HandleFunc("/transactions", api.GetTransactions).Methods("GET")
 	r.HandleFunc("/transactions/{id:[0-9]+}", api.DeleteTransactionHandler).Methods("DELETE")
 	r.HandleFunc("/transactions/{id:[0-9]+}", api.GetTransactionByIdHandler).Methods("GET")
+	r.HandleFunc("/transactions/{id:[0-9]+}/update", api.UpdateTransactionHandler).Methods("POST")
 	r.HandleFunc("/accounts", api.GetAccountsHandler).Methods("GET")
 	r.HandleFunc("/accounts", api.CreateAccountHandler).Methods("POST")
 	r.HandleFunc("/categories", api.CreateCategoryHandler).Methods("POST")

@@ -75,3 +75,20 @@ func GetTransactionById(userId int, trId int) TransactionDb {
 	}
 	return scanTransactionFromRow(queryResult)
 }
+
+func UpdateTransaction(t TransactionDb) (*TransactionDb, error) {
+	now := time.Now()
+	db := database.OpenDb()
+	queryResult := db.QueryRow(`UPDATE transactions SET 
+	account_id = $1, concept = $2, amount = $3, type = $4, execution_date = $5, 
+	category_id = $6, budget_id = $7, updated_at = $8 
+	WHERE id = $9 AND user_id = $10;`,
+		t.AccountId, t.Concept, t.Amount, t.Type, t.ExecutionDate, t.CategoryId,
+		t.BudgetId, now, t.Id, t.UserId)
+	if queryResult.Err() != nil {
+		log.Println(queryResult.Err().Error())
+		return nil, queryResult.Err()
+	}
+	t.UpdatedAt = &now
+	return &t, nil
+}

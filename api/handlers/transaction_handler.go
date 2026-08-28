@@ -88,7 +88,7 @@ func DeleteTransactionHandler(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 	}
 	db := database.OpenDb()
-	dbRow := db.QueryRow("SELECT * FROM transactions WHERE user_id = $1 AND id = $2", managers.GetClaims(r).Id, id)
+	dbRow := db.QueryRow("SELECT id, user_id FROM transactions WHERE user_id = $1 AND id = $2", managers.GetClaims(r).Id, id)
 	if dbRow.Err() != nil {
 		log.Printf("Error getting element -> %s", err.Error())
 		w.WriteHeader(http.StatusNotFound)
@@ -114,4 +114,36 @@ func GetTransactionByIdHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	dbTransaction := repositories.GetTransactionById(managers.GetClaims(r).Id, id)
 	json.NewEncoder(w).Encode(models.GetTransactionResponse{Transaction: mappers.ToTransactionDto(dbTransaction)})
+}
+
+func UpdateTransactionHandler(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	idParameter := vars["id"]
+	id, err := strconv.Atoi(idParameter)
+	if err != nil {
+		log.Println(err.Error())
+		w.WriteHeader(http.StatusBadRequest)
+	}
+	tokenUserId := managers.GetClaims(r).Id
+	var request models.UpdateTransactionRequest
+	json.NewDecoder(r.Body).Decode(&request)
+	t := repositories.TransactionDb{
+		Id:            id,
+		UserId:        tokenUserId,
+		AccountId:     request.AccountId,
+		Concept:       request.Concept,
+		Amount:        request.Amount,
+		Type:          request.Type,
+		ExecutionDate: request.ExecutionDate,
+		CategoryId:    request.CategoryId,
+		BudgetId:      request.BudgetId,
+	}
+	updatedTransaction, err := repositories.UpdateTransaction(t)
+	if err != nil {
+		log.Println(err.Error())
+		w.WriteHeader(http.StatusInternalServerError)
+	}
+	json.NewEncoder(w).Encode(models.UpdateTransactionResponse{
+		UpdatedTransaction: mappers.ToTransactionDto(*updatedTransaction),
+	})
 }
