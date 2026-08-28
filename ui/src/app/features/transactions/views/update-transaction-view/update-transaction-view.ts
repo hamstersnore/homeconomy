@@ -42,6 +42,7 @@ export class UpdateTransactionView {
     })
     categories = signal<Category[]>([])
     accounts = signal<Account[]>([])
+    trId = signal(0)
 
     updateTransactionForm = form(this.updateModel)
 
@@ -64,7 +65,8 @@ export class UpdateTransactionView {
         
         this.route.paramMap.subscribe({
             next: value => {
-                this.transactionService.getTransactionById(parseInt(value.get("id")!))
+                this.trId.set(parseInt(value.get("id")!))
+                this.transactionService.getTransactionById(this.trId())
                 .subscribe({
                     next: okResult => {
                         this.updateModel.set({
@@ -91,5 +93,17 @@ export class UpdateTransactionView {
 
     onSubmit(event: Event) {
         event.preventDefault()
+        this.transactionService.updateTransaction(this.trId(), {
+            AccountId: parseInt(this.updateModel().AccountId),
+            Amount: this.updateModel().Amount,
+            BudgetId: this.updateModel().BudgetId,
+            CategoryId: parseInt(this.updateModel().CategoryId),
+            Concept: this.updateModel().Concept,
+            ExecutionDate: this.updateModel().ExecutionDate,
+            Type: this.updateModel().Type,
+        }).subscribe({
+            next: (resultOk) => this.router.navigate(['transactions']),
+            error: (error) => console.log(error)
+        })
     }
 }
