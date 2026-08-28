@@ -1,15 +1,15 @@
   <div class="flex flex-col bg-white rounded-xl p-20 w-full space-y-8 shadow">
-    <div class="px-8 flex flex-row justify-between items-center">
+    <div class="px-8 flex flex-row justify-between items-center space-x-40">
       <h1 class="font-bold text-2xl">Categories</h1>
       <homeconomy-button [link]="'/create-category'" [text]="'New category'"></homeconomy-button>
     </div>
     <div class="flex flex-col rounded-xl px-8">
-      <div class="flex flex-row font-bold bg-gray-200 p-2 rounded-tl-xl rounded-tr-xl w-2xl">
+      <div class="flex flex-row font-bold bg-gray-300 p-2 rounded-tl-xl rounded-tr-xl">
         <div class="flex-2 text-center">Alias</div>
       </div>
       @for (item of categories(); track $index; let last = $last, odd = $odd) {
         <div
-          class="flex flex-row justify-between p-2 border-b border-gray-200 bg-gray-50"
+          class="even:bg-gray-50 flex flex-row justify-between p-2 border-b border-gray-200 bg-gray-100"
           [class.rounded-bl-xl]="last"
           [class.rounded-br-xl]="last"
         >
