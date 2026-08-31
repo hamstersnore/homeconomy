@@ -46,3 +46,14 @@ func SignInHandler(w http.ResponseWriter, r *http.Request) {
 		AuthToken: token,
 	})
 }
+
+func GetAuthenticatedUserHandler(w http.ResponseWriter, r *http.Request) {
+	dbUser := repositories.GetUser(managers.GetClaims(r).Id)
+	json.NewEncoder(w).Encode(models.GetAuthenticatedUserResponse{
+		User: models.User{
+			Id:        int32(dbUser.Id),
+			Username:  dbUser.Username,
+			CreatedAt: dbUser.Created_at,
+		},
+	})
+}

@@ -22,6 +22,7 @@ func main() {
 	r.HandleFunc("/health", api.HealthHandler).Methods("GET", "OPTIONS")
 	r.HandleFunc("/auth/sign-up", api.SignUpHandler).Methods("POST")
 	r.HandleFunc("/auth/sign-in", api.SignInHandler).Methods("POST", "OPTIONS")
+	r.HandleFunc("/auth/me", api.GetAuthenticatedUserHandler).Methods("GET")
 	r.HandleFunc("/transactions", api.CreateTransaction).Methods("POST")
 	r.HandleFunc("/transactions", api.GetTransactions).Methods("GET")
 	r.HandleFunc("/transactions/{id:[0-9]+}", api.DeleteTransactionHandler).Methods("DELETE")
