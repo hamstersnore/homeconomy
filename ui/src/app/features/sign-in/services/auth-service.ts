@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { inject, Injectable, signal, Signal } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { SignInResponse, SignUpRequest } from '../models/sign-in.model';
 import { environment } from '../../../../environments/environment';
 import { BaseApiResponse } from '../../../services/base.service';
@@ -8,6 +8,10 @@ import { Router } from '@angular/router';
 
 const SIGN_UP_URL = "auth/sign-up";
 const SIGN_IN_URL = "auth/sign-in";
+
+interface User {
+
+}
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +22,23 @@ export class AuthService {
 
   private http = inject(HttpClient)
   private router = inject(Router)
+
+  private userSubject = new BehaviorSubject<User | null>(null);
+
+  user$: Observable<User|null>  = this.userSubject.asObservable();
+
+  constructor(){
+    this.loadUserProfileOnStartup();
+  }
+
+  loadUserProfileOnStartup(): void {
+    const token = localStorage.getItem(this.AUTH_TOKEN_KEY);
+    if (token) {
+      
+    }
+  }
+
+  authToken = signal<string|null>(null)
 
   signUp(username:string, password:string):boolean{
     
@@ -70,7 +91,7 @@ export class AuthService {
     localStorage.setItem(this.AUTH_TOKEN_KEY, token)
   }
 
-  isAutheticated():boolean{
+  isAuthenticated():boolean{
     var token = this.getToken()
     return token.length > 5
   }
