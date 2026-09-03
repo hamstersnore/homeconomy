@@ -1,16 +1,19 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal, Signal } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { SignInResponse, SignUpRequest } from '../models/sign-in.model';
+import { BehaviorSubject, Observable, switchMap, tap } from 'rxjs';
+import { GetAuthenticatedUserResponse, SignInResponse, SignUpRequest } from '../models/sign-in.model';
 import { environment } from '../../../../environments/environment';
 import { BaseApiResponse } from '../../../services/base.service';
 import { Router } from '@angular/router';
 
 const SIGN_UP_URL = "auth/sign-up";
 const SIGN_IN_URL = "auth/sign-in";
+const GET_USER_URL = "auth/me";
 
 interface User {
-
+  Id: number
+  Username: string
+  CreatedAt: string
 }
 
 @Injectable({
@@ -34,7 +37,10 @@ export class AuthService {
   loadUserProfileOnStartup(): void {
     const token = localStorage.getItem(this.AUTH_TOKEN_KEY);
     if (token) {
-      
+      this.getAuthenticatedUser().subscribe({
+        next: user => this.userSubject.next(user),
+        error: () => this.logout()
+      });
     }
   }
 
@@ -65,7 +71,7 @@ export class AuthService {
     return true;
   }
 
-  signIn(username:string, password:string):Observable<SignInResponse>{
+  signIn(username:string, password:string):Observable<User>{
     
     var url:string = environment.apiBaseUrl + SIGN_IN_URL
 
@@ -74,7 +80,17 @@ export class AuthService {
       {
         username:username,
         password:password
-      });
+      }).pipe(
+        tap(response => this.setToken(response.authToken)),
+        switchMap(() => this.getAuthenticatedUser()),
+        tap( getAuthUserResponse => this.userSubject.next(
+          {
+            Id: getAuthUserResponse.Id,
+            Username: getAuthUserResponse.Username,
+            CreatedAt: getAuthUserResponse.CreatedAt
+          }
+        ))
+      )
   }
   
   getToken():string{
@@ -92,8 +108,16 @@ export class AuthService {
   }
 
   isAuthenticated():boolean{
-    var token = this.getToken()
-    return token.length > 5
+    return !!this.userSubject.value
+  }
+
+  getAuthenticatedUser():Observable<GetAuthenticatedUserResponse>{
+    return this.http.get<GetAuthenticatedUserResponse>(environment.apiBaseUrl + GET_USER_URL)
+  }
+
+  logout():void {
+    localStorage.removeItem(this.AUTH_TOKEN_KEY);
+    this.userSubject.next(null);
   }
 }
 
