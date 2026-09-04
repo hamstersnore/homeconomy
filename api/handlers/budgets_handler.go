@@ -32,5 +32,21 @@ func CreateBudgetHandler(w http.ResponseWriter, r *http.Request) {
 			UpdateAt:  nil,
 		},
 	})
+}
 
+func GetBudgetsHandler(w http.ResponseWriter, r *http.Request) {
+	db := database.OpenDb()
+	queryResult, err := db.Query("SELECT b.id, b.alias FROM budgets AS b JOIN budget_members AS bm ON b.id = bm.budget_id WHERE bm.user_id = $1;", managers.GetClaims(r).Id)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+	}
+	var budgets []models.BudgetDto
+	for queryResult.Next() {
+		b := models.BudgetDto{}
+		queryResult.Scan(&b.Id, &b.Alias)
+		budgets = append(budgets, b)
+	}
+	json.NewEncoder(w).Encode(models.GetBudgetsResponse{
+		Budgets: budgets,
+	})
 }

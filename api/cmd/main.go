@@ -33,6 +33,8 @@ func main() {
 	r.HandleFunc("/categories", api.CreateCategoryHandler).Methods("POST")
 	r.HandleFunc("/categories", api.GetCategoriesHandler).Methods("GET")
 	r.HandleFunc("/dashboard/data", api.GetDashboardDataHandler).Methods("GET")
+	r.HandleFunc("/budgets", api.CreateBudgetHandler).Methods("POST")
+	r.HandleFunc("/budgets", api.GetBudgetsHandler).Methods("GET")
 
 	r.Use(middleware.LoggingMiddleware, middleware.AuthHttpHandler)
 
